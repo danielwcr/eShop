@@ -37,7 +37,7 @@ public class OrderQueries(OrderingContext context)
     public async Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(string userId)
     {
         return await context.Orders
-            .Where(o => o.Buyer.IdentityGuid == userId)  
+            .Where(o => o.BuyerId.ToString() == userId)  
             .Select(o => new OrderSummary
             {
                 ordernumber = o.Id,
@@ -48,6 +48,4 @@ public class OrderQueries(OrderingContext context)
             .ToListAsync();
     } 
     
-    public async Task<IEnumerable<CardType>> GetCardTypesAsync() => 
-        await context.CardTypes.Select(c=> new CardType { Id = c.Id, Name = c.Name }).ToListAsync();
 }

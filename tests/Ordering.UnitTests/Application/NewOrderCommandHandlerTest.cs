@@ -45,18 +45,6 @@ public class NewOrderRequestHandlerTest
         Assert.False(result);
     }
 
-    [Fact]
-    public void Handle_throws_exception_when_no_buyerId()
-    {
-        //Assert
-        Assert.Throws<ArgumentNullException>(() => new Buyer(string.Empty, string.Empty));
-    }
-
-    private Buyer FakeBuyer()
-    {
-        return new Buyer(Guid.NewGuid().ToString(), "1");
-    }
-
     private Order FakeOrder()
     {
         return new Order("1", "fakeName", new Address("street", "city", "state", "country", "zipcode"), 1, "12", "111", "fakeName", DateTime.UtcNow.AddYears(1));

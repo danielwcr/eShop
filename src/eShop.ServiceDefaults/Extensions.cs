@@ -71,7 +71,6 @@ public static partial class Extensions
                 }
 
                 tracing.AddAspNetCoreInstrumentation()
-                    .AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
             });
 

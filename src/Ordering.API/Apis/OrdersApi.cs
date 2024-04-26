@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using CardType = eShop.Ordering.API.Application.Queries.CardType;
 using Order = eShop.Ordering.API.Application.Queries.Order;
 
 public static class OrdersApi
@@ -7,11 +6,8 @@ public static class OrdersApi
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
         app.MapPut("/cancel", CancelOrderAsync);
-        app.MapPut("/ship", ShipOrderAsync);
         app.MapGet("{orderId:int}", GetOrderAsync);
         app.MapGet("/", GetOrdersByUserAsync);
-        app.MapGet("/cardtypes", GetCardTypesAsync);
-        app.MapPost("/draft", CreateOrderDraftAsync);
         app.MapPost("/", CreateOrderAsync);
 
         return app;
@@ -46,35 +42,6 @@ public static class OrdersApi
         return TypedResults.Ok();
     }
 
-    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> ShipOrderAsync(
-        [FromHeader(Name = "x-requestid")] Guid requestId,
-        ShipOrderCommand command,
-        [AsParameters] OrderServices services)
-    {
-        if (requestId == Guid.Empty)
-        {
-            return TypedResults.BadRequest("Empty GUID is not valid for request ID");
-        }
-
-        var requestShipOrder = new IdentifiedCommand<ShipOrderCommand, bool>(command, requestId);
-
-        services.Logger.LogInformation(
-            "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-            requestShipOrder.GetGenericTypeName(),
-            nameof(requestShipOrder.Command.OrderNumber),
-            requestShipOrder.Command.OrderNumber,
-            requestShipOrder);
-
-        var commandResult = await services.Mediator.Send(requestShipOrder);
-
-        if (!commandResult)
-        {
-            return TypedResults.Problem(detail: "Ship order failed to process.", statusCode: 500);
-        }
-
-        return TypedResults.Ok();
-    }
-
     public static async Task<Results<Ok<Order>, NotFound>> GetOrderAsync(int orderId, [AsParameters] OrderServices services)
     {
         try
@@ -95,28 +62,11 @@ public static class OrdersApi
         return TypedResults.Ok(orders);
     }
 
-    public static async Task<Ok<IEnumerable<CardType>>> GetCardTypesAsync(IOrderQueries orderQueries)
-    {
-        var cardTypes = await orderQueries.GetCardTypesAsync();
-        return TypedResults.Ok(cardTypes);
-    }
-
-    public static async Task<OrderDraftDTO> CreateOrderDraftAsync(CreateOrderDraftCommand command, [AsParameters] OrderServices services)
-    {
-        services.Logger.LogInformation(
-            "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-            command.GetGenericTypeName(),
-            nameof(command.BuyerId),
-            command.BuyerId,
-            command);
-
-        return await services.Mediator.Send(command);
-    }
 
     public static async Task<Results<Ok, BadRequest<string>>> CreateOrderAsync(
-        [FromHeader(Name = "x-requestid")] Guid requestId,
-        CreateOrderRequest request,
-        [AsParameters] OrderServices services)
+     [FromHeader(Name = "x-requestid")] Guid requestId,
+     CreateOrderRequest request,
+     [AsParameters] OrderServices services)
     {
         services.Logger.LogInformation(
             "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",

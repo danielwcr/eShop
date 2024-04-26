@@ -24,8 +24,4 @@
     <PackageReference Include="xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Basket.API\Basket.API.csproj" />
-  </ItemGroup>
-
 </Project>
