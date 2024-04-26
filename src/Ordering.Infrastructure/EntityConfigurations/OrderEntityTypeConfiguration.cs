@@ -23,14 +23,5 @@ class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         orderConfiguration
             .Property(o => o.PaymentId)
             .HasColumnName("PaymentMethodId");
-
-        orderConfiguration.HasOne<PaymentMethod>()
-            .WithMany()
-            .HasForeignKey(o => o.PaymentId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        orderConfiguration.HasOne(o => o.Buyer)
-            .WithMany()
-            .HasForeignKey(o => o.BuyerId);
     }
 }

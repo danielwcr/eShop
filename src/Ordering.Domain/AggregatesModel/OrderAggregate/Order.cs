@@ -13,8 +13,6 @@ public class Order
 
     public int? BuyerId { get; private set; }
 
-    public Buyer Buyer { get; }
-
     public OrderStatus OrderStatus { get; private set; }
     
     public string Description { get; private set; }
@@ -125,18 +123,6 @@ public class Order
             OrderStatus = OrderStatus.Paid;
             Description = "The payment was performed at a simulated \"American Bank checking bank account ending on XX35071\"";
         }
-    }
-
-    public void SetShippedStatus()
-    {
-        if (OrderStatus != OrderStatus.Paid)
-        {
-            StatusChangeException(OrderStatus.Shipped);
-        }
-
-        OrderStatus = OrderStatus.Shipped;
-        Description = "The order was shipped.";
-        AddDomainEvent(new OrderShippedDomainEvent(this));
     }
 
     public void SetCancelledStatus()

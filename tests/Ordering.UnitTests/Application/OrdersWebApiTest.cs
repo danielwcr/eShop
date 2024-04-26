@@ -51,37 +51,6 @@ public class OrdersWebApiTest
     }
 
     [Fact]
-    public async Task Ship_order_with_requestId_success()
-    {
-        // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<ShipOrderCommand, bool>>(), default)
-            .Returns(Task.FromResult(true));
-
-        // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
-        var result = await OrdersApi.ShipOrderAsync(Guid.NewGuid(), new ShipOrderCommand(1), orderServices);
-
-        // Assert
-        Assert.IsType<Ok>(result.Result);
-
-    }
-
-    [Fact]
-    public async Task Ship_order_bad_request()
-    {
-        // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<CreateOrderCommand, bool>>(), default)
-            .Returns(Task.FromResult(true));
-
-        // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
-        var result = await OrdersApi.ShipOrderAsync(Guid.Empty, new ShipOrderCommand(1), orderServices);
-
-        // Assert
-        Assert.IsType<BadRequest<string>>(result.Result);
-    }
-
-    [Fact]
     public async Task Get_orders_success()
     {
         // Arrange
@@ -135,21 +104,5 @@ public class OrdersWebApiTest
 
         // Assert
         Assert.IsType<NotFound>(result.Result);
-    }
-
-    [Fact]
-    public async Task Get_cardTypes_success()
-    {
-        // Arrange
-        var fakeDynamicResult = Enumerable.Empty<CardType>();
-        _orderQueriesMock.GetCardTypesAsync()
-            .Returns(Task.FromResult(fakeDynamicResult));
-
-        // Act
-        var result = await OrdersApi.GetCardTypesAsync(_orderQueriesMock);
-
-        // Assert
-        Assert.IsType<Ok<IEnumerable<CardType>>>(result);
-        Assert.Same(fakeDynamicResult, result.Value);
     }
 }
