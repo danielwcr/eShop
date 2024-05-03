@@ -10,7 +10,6 @@ namespace eShop.Ordering.Infrastructure;
 public class OrderingContext : DbContext, IUnitOfWork
 {
     public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
 
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
@@ -34,7 +33,6 @@ public class OrderingContext : DbContext, IUnitOfWork
         modelBuilder.HasDefaultSchema("ordering");
         modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderItemEntityTypeConfiguration());
         modelBuilder.UseIntegrationEventLogs();
     }
 
@@ -48,8 +46,6 @@ public class OrderingContext : DbContext, IUnitOfWork
         // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers. 
         await _mediator.DispatchDomainEventsAsync(this);
 
-        // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
-        // performed through the DbContext will be committed
         _ = await base.SaveChangesAsync(cancellationToken);
 
         return true;

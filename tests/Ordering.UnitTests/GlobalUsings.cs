@@ -2,7 +2,6 @@
 global using Microsoft.AspNetCore.Mvc;
 global using eShop.Ordering.API.Application.Commands;
 global using eShop.Ordering.API.Application.Models;
-global using eShop.Ordering.API.Infrastructure.Services;
 global using eShop.Ordering.Domain.Events;
 global using eShop.Ordering.Domain.Exceptions;
 global using eShop.Ordering.Domain.SeedWork;

@@ -131,19 +131,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     [Fact]
     public async Task AddNewOrder()
     {
-        // Act
-        var item = new BasketItem
-        {
-            Id = "1",
-            ProductId = 12,
-            ProductName = "Test",
-            UnitPrice = 10,
-            OldUnitPrice = 9,
-            Quantity = 1,
-            PictureUrl = null
-        };
-        var cardExpirationDate = Convert.ToDateTime("2023-12-22T12:34:24.334Z");
-        var OrderRequest = new CreateOrderRequest("1", "TestUser", null, null, null, null, null, null, "Test User", cardExpirationDate, "test buyer", 1, null, new List<BasketItem> { item });
+        var OrderRequest = new CreateOrderRequest("1", "123");
         var content = new StringContent(JsonSerializer.Serialize(OrderRequest), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.NewGuid().ToString() } }
@@ -151,7 +139,6 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
         var response = await _httpClient.PostAsync("api/v1/orders", content);
         var s = await response.Content.ReadAsStringAsync();
 
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 

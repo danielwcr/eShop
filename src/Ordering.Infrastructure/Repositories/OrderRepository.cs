@@ -21,13 +21,6 @@ public class OrderRepository
     public async Task<Order> GetAsync(int orderId)
     {
         var order = await _context.Orders.FindAsync(orderId);
-
-        if (order != null)
-        {
-            await _context.Entry(order)
-                .Collection(i => i.OrderItems).LoadAsync();
-        }
-
         return order;
     }
 

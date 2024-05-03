@@ -4,12 +4,12 @@ public record OrderStatusChangedToCancelledIntegrationEvent : IntegrationEvent
 {
     public int OrderId { get; }
     public OrderStatus OrderStatus { get; }
-    public int? BuyerId { get; }
+    public string UserId { get; }
 
-    public OrderStatusChangedToCancelledIntegrationEvent(int orderId, OrderStatus orderStatus, int? buyerId)
+    public OrderStatusChangedToCancelledIntegrationEvent(int orderId, OrderStatus orderStatus, string userId)
     {
         OrderId = orderId;
         OrderStatus = orderStatus;
-        BuyerId = buyerId;
+        UserId = userId;
     }
 }

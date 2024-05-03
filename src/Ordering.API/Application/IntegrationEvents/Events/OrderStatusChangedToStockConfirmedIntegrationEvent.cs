@@ -4,12 +4,12 @@ public record OrderStatusChangedToStockConfirmedIntegrationEvent : IntegrationEv
 {
     public int OrderId { get; }
     public OrderStatus OrderStatus { get; }
-    public int? BuyerId { get; }
+    public string UserId { get; }
 
-    public OrderStatusChangedToStockConfirmedIntegrationEvent(int orderId, OrderStatus orderStatus, int? buyerId)
+    public OrderStatusChangedToStockConfirmedIntegrationEvent(int orderId, OrderStatus orderStatus, string userId)
     {
         OrderId = orderId;
         OrderStatus = orderStatus;
-        BuyerId = buyerId;
+        UserId = userId;
     }
 }

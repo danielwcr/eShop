@@ -6,7 +6,6 @@ public class OrderQueries(OrderingContext context)
     public async Task<Order> GetOrderAsync(int id)
     {
         var order = await context.Orders
-            .Include(o => o.OrderItems)
             .FirstOrDefaultAsync(o => o.Id == id);
       
         if (order is null)
@@ -17,33 +16,19 @@ public class OrderQueries(OrderingContext context)
             ordernumber = order.Id,
             date = order.OrderDate,
             description = order.Description,
-            city = order.Address.City,
-            country = order.Address.Country,
-            state = order.Address.State,
-            street = order.Address.Street,
-            zipcode = order.Address.ZipCode,
-            status = order.OrderStatus.ToString(),
-            total = order.GetTotal(),
-            orderitems = order.OrderItems.Select(oi => new Orderitem
-            {
-                productname = oi.ProductName,
-                units = oi.Units,
-                unitprice = (double)oi.UnitPrice,
-                pictureurl = oi.PictureUrl
-            }).ToList()
+            status = order.OrderStatus.ToString()
         };
     }
 
     public async Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(string userId)
     {
         return await context.Orders
-            .Where(o => o.BuyerId.ToString() == userId)  
+            .Where(o => o.UserId == userId)  
             .Select(o => new OrderSummary
             {
                 ordernumber = o.Id,
                 date = o.OrderDate,
                 status = o.OrderStatus.ToString(),
-                total =(double) o.OrderItems.Sum(oi => oi.UnitPrice* oi.Units)
             })
             .ToListAsync();
     } 

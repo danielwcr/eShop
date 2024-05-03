@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A857AD10-40FF-4303-BEC2-FF1C58D5735E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.AppHost", "src\eShop.AppHost\eShop.AppHost.csproj", "{F3DCC17A-F57E-452B-900D-613957EE34FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnShop.AppHost", "src\eShop.AppHost\EnShop.AppHost.csproj", "{F3DCC17A-F57E-452B-900D-613957EE34FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.ServiceDefaults", "src\eShop.ServiceDefaults\eShop.ServiceDefaults.csproj", "{CB04FF2E-F033-487F-8CC1-F2D3490F2187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnShop.ServiceDefaults", "src\eShop.ServiceDefaults\EnShop.ServiceDefaults.csproj", "{CB04FF2E-F033-487F-8CC1-F2D3490F2187}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "src\EventBus\EventBus.csproj", "{53FC1F8E-F56F-4245-A4DD-5100FEB380EC}"
 EndProject

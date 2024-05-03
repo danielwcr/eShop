@@ -11,14 +11,8 @@ var postgres = builder.AddPostgres("postgres")
 
 var orderDb = postgres.AddDatabase("orderingdb");
 
-// Services
-
 var orderingApi = builder.AddProject<Projects.Ordering_API>("ordering-api")
     .WithReference(rabbitMq)
     .WithReference(orderDb);
-
-//builder.AddProject<Projects.OrderProcessor>("order-processor")
-//    .WithReference(rabbitMq)
-//    .WithReference(orderDb);
 
 builder.Build().Run();

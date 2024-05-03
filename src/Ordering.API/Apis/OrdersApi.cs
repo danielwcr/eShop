@@ -7,7 +7,7 @@ public static class OrdersApi
     {
         app.MapPut("/cancel", CancelOrderAsync);
         app.MapGet("{orderId:int}", GetOrderAsync);
-        app.MapGet("/", GetOrdersByUserAsync);
+        app.MapGet("{userId}", GetOrdersByUserAsync);
         app.MapPost("/", CreateOrderAsync);
 
         return app;
@@ -55,13 +55,11 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<OrderSummary>>> GetOrdersByUserAsync([AsParameters] OrderServices services)
+    public static async Task<Ok<IEnumerable<OrderSummary>>> GetOrdersByUserAsync(string userId, [AsParameters] OrderServices services)
     {
-        var userId = services.IdentityService.GetUserIdentity();
         var orders = await services.Queries.GetOrdersFromUserAsync(userId);
         return TypedResults.Ok(orders);
     }
-
 
     public static async Task<Results<Ok, BadRequest<string>>> CreateOrderAsync(
      [FromHeader(Name = "x-requestid")] Guid requestId,
@@ -83,10 +81,7 @@ public static class OrdersApi
 
         using (services.Logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommandId", requestId) }))
         {
-            var createOrderCommand = new CreateOrderCommand(request.Items, request.UserId, request.UserName, request.City, request.Street,
-                request.State, request.Country, request.ZipCode,
-                request.CardNumber, request.CardHolderName, request.CardExpiration,
-                request.CardSecurityNumber, request.CardTypeId);
+            var createOrderCommand = new CreateOrderCommand(request.UserId, request.CardNumber);
 
             var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, requestId);
 
@@ -115,16 +110,4 @@ public static class OrdersApi
 
 public record CreateOrderRequest(
     string UserId,
-    string UserName,
-    string City,
-    string Street,
-    string State,
-    string Country,
-    string ZipCode,
-    string CardNumber,
-    string CardHolderName,
-    DateTime CardExpiration,
-    string CardSecurityNumber,
-    int CardTypeId,
-    string Buyer,
-    List<BasketItem> Items);
+    string CardNumber);

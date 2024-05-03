@@ -11,17 +11,9 @@ class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         orderConfiguration.Property(o => o.Id)
             .UseHiLo("orderseq");
 
-        //Address value object persisted as owned entity type supported since EF Core 2.0
-        orderConfiguration
-            .OwnsOne(o => o.Address);
-
         orderConfiguration
             .Property(o => o.OrderStatus)
             .HasConversion<string>()
             .HasMaxLength(30);
-
-        orderConfiguration
-            .Property(o => o.PaymentId)
-            .HasColumnName("PaymentMethodId");
     }
 }

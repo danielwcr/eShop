@@ -23,7 +23,7 @@ public partial class OrderCancelledDomainEventHandler
 
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
-        var integrationEvent = new OrderStatusChangedToCancelledIntegrationEvent(order.Id, order.OrderStatus, order.BuyerId);
+        var integrationEvent = new OrderStatusChangedToCancelledIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

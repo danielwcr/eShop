@@ -9,14 +9,12 @@ public class OrdersWebApiTest
 {
     private readonly IMediator _mediatorMock;
     private readonly IOrderQueries _orderQueriesMock;
-    private readonly IIdentityService _identityServiceMock;
     private readonly ILogger<OrderServices> _loggerMock;
 
     public OrdersWebApiTest()
     {
         _mediatorMock = Substitute.For<IMediator>();
         _orderQueriesMock = Substitute.For<IOrderQueries>();
-        _identityServiceMock = Substitute.For<IIdentityService>();
         _loggerMock = Substitute.For<ILogger<OrderServices>>();
     }
 
@@ -28,7 +26,7 @@ public class OrdersWebApiTest
             .Returns(Task.FromResult(true));
 
         // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
+        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
         var result = await OrdersApi.CancelOrderAsync(Guid.NewGuid(), new CancelOrderCommand(1), orderServices);
 
         // Assert
@@ -43,7 +41,7 @@ public class OrdersWebApiTest
             .Returns(Task.FromResult(true));
 
         // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
+        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
         var result = await OrdersApi.CancelOrderAsync(Guid.Empty, new CancelOrderCommand(1), orderServices);
 
         // Assert
@@ -56,15 +54,12 @@ public class OrdersWebApiTest
         // Arrange
         var fakeDynamicResult = Enumerable.Empty<OrderSummary>();
 
-        _identityServiceMock.GetUserIdentity()
-            .Returns(Guid.NewGuid().ToString());
-
         _orderQueriesMock.GetOrdersFromUserAsync(Guid.NewGuid().ToString())
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
-        var result = await OrdersApi.GetOrdersByUserAsync(orderServices);
+        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
+        var result = await OrdersApi.GetOrdersByUserAsync("1", orderServices);
 
         // Assert
         Assert.IsType<Ok<IEnumerable<OrderSummary>>>(result);
@@ -80,7 +75,7 @@ public class OrdersWebApiTest
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
+        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
         var result = await OrdersApi.GetOrderAsync(fakeOrderId, orderServices);
 
         // Assert
@@ -99,7 +94,7 @@ public class OrdersWebApiTest
 #pragma warning restore NS5003
 
         // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _identityServiceMock, _loggerMock);
+        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
         var result = await OrdersApi.GetOrderAsync(fakeOrderId, orderServices);
 
         // Assert
