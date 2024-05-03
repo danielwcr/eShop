@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+﻿namespace EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 //This is just the RepositoryContracts or Interface defined at the Domain Layer
 //as requisite for the Order Aggregate

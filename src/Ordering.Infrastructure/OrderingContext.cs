@@ -1,6 +1,6 @@
-﻿using eShop.IntegrationEventLogEF;
+﻿using EnShop.IntegrationEventLogEF;
 
-namespace eShop.Ordering.Infrastructure;
+namespace EnShop.Ordering.Infrastructure;
 
 /// <remarks>
 /// Add migrations using the following command inside the 'Ordering.Infrastructure' project directory:

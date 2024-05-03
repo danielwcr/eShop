@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Order = eShop.Ordering.API.Application.Queries.Order;
+using Order = EnShop.Ordering.API.Application.Queries.Order;
 
 public static class OrdersApi
 {

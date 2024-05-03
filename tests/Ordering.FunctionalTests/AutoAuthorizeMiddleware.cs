@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.FunctionalTests;
+﻿namespace EnShop.Ordering.FunctionalTests;
 
 class AutoAuthorizeMiddleware
 {

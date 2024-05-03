@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>eShop.IntegrationEventLogEF</RootNamespace>
+    <RootNamespace>EnShop.IntegrationEventLogEF</RootNamespace>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 

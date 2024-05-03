@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>eShop.Ordering.API</RootNamespace>
+    <RootNamespace>EnShop.Ordering.API</RootNamespace>
     <UserSecretsId>7161b768-033d-41c7-bc5d-37528275e1f3</UserSecretsId>
   </PropertyGroup>
 
@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\IntegrationEventLogEF\IntegrationEventLogEF.csproj" />
-    <ProjectReference Include="..\eShop.ServiceDefaults\EnShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\EnShop.ServiceDefaults\EnShop.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
     <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
   </ItemGroup>
@@ -42,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Models\" />
     <Folder Include="Infrastructure\Services\" />
   </ItemGroup>
 

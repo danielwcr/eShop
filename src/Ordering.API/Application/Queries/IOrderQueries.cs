@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Application.Queries;
+﻿namespace EnShop.Ordering.API.Application.Queries;
 
 public interface IOrderQueries
 {

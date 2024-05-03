@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Application.Commands;
+﻿namespace EnShop.Ordering.API.Application.Commands;
 
 // Regular CommandHandler
 public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, bool>

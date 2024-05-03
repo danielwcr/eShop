@@ -1,4 +1,4 @@
-﻿namespace eShop.EventBusRabbitMQ;
+﻿namespace EnShop.EventBusRabbitMQ;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;

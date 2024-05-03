@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Application.Commands;
+﻿namespace EnShop.Ordering.API.Application.Commands;
 
 // Regular CommandHandler
 public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetStockConfirmedOrderStatusCommand, bool>
@@ -18,9 +18,6 @@ public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetSto
     /// <returns></returns>
     public async Task<bool> Handle(SetStockConfirmedOrderStatusCommand command, CancellationToken cancellationToken)
     {
-        // Simulate a work time for confirming the stock
-        await Task.Delay(10000, cancellationToken);
-
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
         if (orderToUpdate == null)
         {

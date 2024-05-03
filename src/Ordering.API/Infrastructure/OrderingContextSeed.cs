@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Infrastructure;
+﻿namespace EnShop.Ordering.API.Infrastructure;
 
 public class OrderingContextSeed: IDbSeeder<OrderingContext>
 {

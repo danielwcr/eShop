@@ -1,7 +1,7 @@
-﻿namespace eShop.Ordering.UnitTests.Domain;
+﻿namespace EnShop.Ordering.UnitTests.Domain;
 
-using eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
-using eShop.Ordering.UnitTests.Domain;
+using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+using EnShop.Ordering.UnitTests.Domain;
 
 public class OrderAggregateTest
 {

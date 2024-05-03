@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Application.Validations;
+﻿namespace EnShop.Ordering.API.Application.Validations;
 
 public class CancelOrderCommandValidator : AbstractValidator<CancelOrderCommand>
 {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication;
 
-namespace eShop.ServiceDefaults;
+namespace EnShop.ServiceDefaults;
 
 public static class HttpClientExtensions
 {

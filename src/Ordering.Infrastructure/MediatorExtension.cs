@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.Infrastructure;
+﻿namespace EnShop.Ordering.Infrastructure;
 
 static class MediatorExtension
 {

@@ -1,7 +1,7 @@
-﻿using eShop.Ordering.API.Application.IntegrationEvents;
-using eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+﻿using EnShop.Ordering.API.Application.IntegrationEvents;
+using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
-namespace eShop.Ordering.UnitTests.Application;
+namespace EnShop.Ordering.UnitTests.Application;
 
 public class NewOrderRequestHandlerTest
 {

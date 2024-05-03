@@ -1,6 +1,6 @@
-﻿using eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+﻿using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
-namespace eShop.Ordering.UnitTests.Domain;
+namespace EnShop.Ordering.UnitTests.Domain;
 
 public class OrderBuilder
 {

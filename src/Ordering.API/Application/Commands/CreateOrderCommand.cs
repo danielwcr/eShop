@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Application.Commands;
+﻿namespace EnShop.Ordering.API.Application.Commands;
 
 [DataContract]
 public class CreateOrderCommand

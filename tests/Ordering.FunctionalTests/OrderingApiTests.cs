@@ -1,12 +1,11 @@
 ﻿using System.Net;
 using System.Text;
 using System.Text.Json;
-using eShop.Ordering.API.Application.Commands;
-using eShop.Ordering.API.Application.Models;
-using eShop.Ordering.API.Application.Queries;
+using EnShop.Ordering.API.Application.Commands;
+using EnShop.Ordering.API.Application.Queries;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace eShop.Ordering.FunctionalTests;
+namespace EnShop.Ordering.FunctionalTests;
 
 public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
 {

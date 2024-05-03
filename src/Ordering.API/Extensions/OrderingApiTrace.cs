@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.API.Extensions;
+﻿namespace EnShop.Ordering.API.Extensions;
 
 internal static partial class OrderingApiTrace
 {

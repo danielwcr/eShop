@@ -1,4 +1,4 @@
-﻿namespace eShop.EventBus.Abstractions;
+﻿namespace EnShop.EventBus.Abstractions;
 
 public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler
     where TIntegrationEvent : IntegrationEvent

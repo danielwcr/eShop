@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Aspire.Hosting.Lifecycle;
 
-namespace eShop.AppHost;
+namespace EnShop.AppHost;
 
 internal static class Extensions
 {

@@ -1,16 +1,16 @@
-# eShop Reference Application - "Northern Mountains"
+# EnShop Reference Application - "Northern Mountains"
 
 A reference .NET application implementing an eCommerce web site using a services-based architecture.
 
-![eShop Reference Application architecture diagram](img/eshop_architecture.png)
+![EnShop Reference Application architecture diagram](img/eshop_architecture.png)
 
-![eShop homepage screenshot](img/eshop_homepage.png)
+![EnShop homepage screenshot](img/eshop_homepage.png)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Clone the eShop repository: https://github.com/dotnet/eshop
+- Clone the EnShop repository: https://github.com/dotnet/eshop
 - (Windows only) Install Visual Studio. Visual Studio contains tooling support for .NET Aspire that you will want to have. [Visual Studio 2022 version 17.10 Preview](https://visualstudio.microsoft.com/vs/preview/).
   - During installation, ensure that the following are selected:
     - `ASP.NET and web development` workload.
@@ -20,7 +20,7 @@ A reference .NET application implementing an eCommerce web site using a services
 ```powershell
 dotnet workload update
 dotnet workload install aspire
-dotnet restore eShop.Web.slnf
+dotnet restore EnShop.Web.slnf
 ```
 - Install & start Docker Desktop:  https://docs.docker.com/engine/install/
 
@@ -30,13 +30,13 @@ dotnet restore eShop.Web.slnf
 > Remember to ensure that Docker is started
 
 * (Windows only) Run the application from Visual Studio:
- - Open the `eShop.Web.slnf` file in Visual Studio
- - Ensure that `eShop.AppHost.csproj` is your startup project
+ - Open the `EnShop.Web.slnf` file in Visual Studio
+ - Ensure that `EnShop.AppHost.csproj` is your startup project
  - Hit Ctrl-F5 to launch Aspire
 
 * Or run the application from your terminal:
 ```powershell
-dotnet run --project src/eShop.AppHost/eShop.AppHost.csproj
+dotnet run --project src/EnShop.AppHost/EnShop.AppHost.csproj
 ```
 then look for lines like this in the console output in order to find the URL to open the Aspire dashboard:
 ```sh
@@ -45,7 +45,7 @@ Now listening on: http://localhost:18848
 
 ### Sample data
 
-The sample catalog data is defined in [catalog.json](https://github.com/dotnet/eShop/blob/main/src/Catalog.API/Setup/catalog.json). Those product names, descriptions, and brand names are fictional and were generated using [GPT-35-Turbo](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt), and the corresponding [product images](https://github.com/dotnet/eShop/tree/main/src/Catalog.API/Pics) were generated using [DALL·E 3](https://openai.com/dall-e-3).
+The sample catalog data is defined in [catalog.json](https://github.com/dotnet/EnShop/blob/main/src/Catalog.API/Setup/catalog.json). Those product names, descriptions, and brand names are fictional and were generated using [GPT-35-Turbo](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt), and the corresponding [product images](https://github.com/dotnet/EnShop/tree/main/src/Catalog.API/Pics) were generated using [DALL·E 3](https://openai.com/dall-e-3).
 
 ## Use Azure Developer CLI
 
@@ -81,6 +81,6 @@ Notes:
 
 For more information on contributing to this repo, please read [the contribution documentation](./CONTRIBUTING.md) and [the Code of Conduct](CODE-OF-CONDUCT.md).
 
-## eShop on Azure
+## EnShop on Azure
 
-For a version of this app configured for deployment on Azure, please view [the eShop on Azure](https://github.com/Azure-Samples/eShopOnAzure) repo.
+For a version of this app configured for deployment on Azure, please view [the EnShop on Azure](https://github.com/Azure-Samples/EnShopOnAzure) repo.

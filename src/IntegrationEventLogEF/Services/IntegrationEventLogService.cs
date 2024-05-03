@@ -1,4 +1,4 @@
-﻿namespace eShop.IntegrationEventLogEF.Services;
+﻿namespace EnShop.IntegrationEventLogEF.Services;
 
 public class IntegrationEventLogService<TContext> : IIntegrationEventLogService, IDisposable
     where TContext : DbContext

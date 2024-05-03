@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+namespace EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class Order
     : Entity, IAggregateRoot

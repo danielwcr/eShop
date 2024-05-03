@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.Infrastructure.Repositories;
+﻿namespace EnShop.Ordering.Infrastructure.Repositories;
 
 public class OrderRepository
     : IOrderRepository

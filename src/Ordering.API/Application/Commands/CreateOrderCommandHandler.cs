@@ -1,6 +1,6 @@
-﻿namespace eShop.Ordering.API.Application.Commands;
+﻿namespace EnShop.Ordering.API.Application.Commands;
 
-using eShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class CreateOrderCommandHandler
     : IRequestHandler<CreateOrderCommand, bool>

@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.Infrastructure.EntityConfigurations;
+﻿namespace EnShop.Ordering.Infrastructure.EntityConfigurations;
 
 class ClientRequestEntityTypeConfiguration
     : IEntityTypeConfiguration<ClientRequest>
