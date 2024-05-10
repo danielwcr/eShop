@@ -19,9 +19,9 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler
 
     public async Task Handle(OrderStatusChangedToStockConfirmedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.OrderId, OrderStatus.StockConfirmed);
+        OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, OrderStatus.StockConfirmed);
 
-        var order = await _orderRepository.GetAsync(domainEvent.OrderId);
+        var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
         var integrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);

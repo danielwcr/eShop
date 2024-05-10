@@ -61,47 +61,6 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     }
 
     [Fact]
-    public async Task ShipWithEmptyGuidFails()
-    {
-        // Act
-        var content = new StringContent(BuildOrder(), UTF8Encoding.UTF8, "application/json")
-        {
-            Headers = { { "x-requestid", Guid.Empty.ToString() } }
-        };
-        var response = await _httpClient.PutAsync("api/v1/orders/ship", content);
-        var s = await response.Content.ReadAsStringAsync();
-
-        // Assert
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task ShipNonExistentOrderFails()
-    {
-        // Act
-        var content = new StringContent(BuildOrder(), UTF8Encoding.UTF8, "application/json")
-        {
-            Headers = { { "x-requestid", Guid.NewGuid().ToString() } }
-        };
-        var response = await _httpClient.PutAsync("api/v1/orders/ship", content);
-
-        // Assert
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task GetAllOrdersCardType()
-    {
-        // Act 1
-        var response = await _httpClient.GetAsync("api/v1/orders/cardtypes");
-        var s = await response.Content.ReadAsStringAsync();
-        response.EnsureSuccessStatusCode();
-
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-
-    [Fact]
     public async Task GetStoredOrdersWithOrderId()
     {
         // Act
@@ -130,7 +89,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     [Fact]
     public async Task AddNewOrder()
     {
-        var OrderRequest = new CreateOrderRequest("1", "123");
+        var OrderRequest = new CreateOrderCommand("1", "123");
         var content = new StringContent(JsonSerializer.Serialize(OrderRequest), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.NewGuid().ToString() } }

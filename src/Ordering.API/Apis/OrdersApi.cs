@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Order = EnShop.Ordering.API.Application.Queries.Order;
 
 public static class OrdersApi
 {
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
-        app.MapPut("/cancel", CancelOrderAsync);
-        app.MapGet("{orderId:int}", GetOrderAsync);
-        app.MapGet("{userId}", GetOrdersByUserAsync);
-        app.MapPost("/", CreateOrderAsync);
+        app.MapPost("/create-order", CreateOrderAsync);
+        app.MapPut("/cancel-order", CancelOrderAsync);
+        app.MapGet("/get-order/{orderId}", GetOrderAsync);
+        app.MapGet("/get-order-by-user", GetOrdersByUserAsync);
 
         return app;
     }
@@ -20,7 +19,7 @@ public static class OrdersApi
     {
         if (requestId == Guid.Empty)
         {
-            return TypedResults.BadRequest("Empty GUID is not valid for request ID");
+            return TypedResults.BadRequest("RequestId is missing.");
         }
 
         var requestCancelOrder = new IdentifiedCommand<CancelOrderCommand, bool>(command, requestId);
@@ -36,13 +35,13 @@ public static class OrdersApi
 
         if (!commandResult)
         {
-            return TypedResults.Problem(detail: "Cancel order failed to process.", statusCode: 500);
+            return TypedResults.Problem(detail: "CancelOrderCommand failed to process.", statusCode: 500);
         }
 
         return TypedResults.Ok();
     }
 
-    public static async Task<Results<Ok<Order>, NotFound>> GetOrderAsync(int orderId, [AsParameters] OrderServices services)
+    public static async Task<Results<Ok<EnShop.Ordering.API.Application.Queries.Order>, NotFound>> GetOrderAsync(int orderId, [AsParameters] OrderServices services)
     {
         try
         {
@@ -55,35 +54,25 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<OrderSummary>>> GetOrdersByUserAsync(string userId, [AsParameters] OrderServices services)
+    public static async Task<Ok<IEnumerable<OrderSummary>>> GetOrdersByUserAsync([FromQuery] string userId, [AsParameters] OrderServices services)
     {
         var orders = await services.Queries.GetOrdersFromUserAsync(userId);
         return TypedResults.Ok(orders);
     }
 
-    public static async Task<Results<Ok, BadRequest<string>>> CreateOrderAsync(
+    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> CreateOrderAsync(
      [FromHeader(Name = "x-requestid")] Guid requestId,
-     CreateOrderRequest request,
+     CreateOrderCommand command,
      [AsParameters] OrderServices services)
     {
-        services.Logger.LogInformation(
-            "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-            request.GetGenericTypeName(),
-            nameof(request.UserId),
-            request.UserId,
-            request);
-
         if (requestId == Guid.Empty)
         {
-            services.Logger.LogWarning("Invalid IntegrationEvent - RequestId is missing - {@IntegrationEvent}", request);
             return TypedResults.BadRequest("RequestId is missing.");
         }
 
         using (services.Logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommandId", requestId) }))
         {
-            var createOrderCommand = new CreateOrderCommand(request.UserId, request.CardNumber);
-
-            var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, requestId);
+            var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(command, requestId);
 
             services.Logger.LogInformation(
                 "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
@@ -92,22 +81,14 @@ public static class OrdersApi
                 requestCreateOrder.Id,
                 requestCreateOrder);
 
-            var result = await services.Mediator.Send(requestCreateOrder);
+            var commandResult = await services.Mediator.Send(requestCreateOrder);
 
-            if (result)
+            if (!commandResult)
             {
-                services.Logger.LogInformation("CreateOrderCommand succeeded - RequestId: {RequestId}", requestId);
-            }
-            else
-            {
-                services.Logger.LogWarning("CreateOrderCommand failed - RequestId: {RequestId}", requestId);
+                return TypedResults.Problem(detail: "CreateOrderCommand failed to process.", statusCode: 500);
             }
 
             return TypedResults.Ok();
         }
     }
 }
-
-public record CreateOrderRequest(
-    string UserId,
-    string CardNumber);
