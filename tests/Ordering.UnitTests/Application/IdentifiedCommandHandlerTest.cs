@@ -4,13 +4,13 @@ public class IdentifiedCommandHandlerTest
 {
     private readonly IRequestManager _requestManager;
     private readonly IMediator _mediator;
-    private readonly ILogger<IdentifiedCommandHandler<CreateOrderCommand, bool>> _loggerMock;
+    private readonly ILogger<IdentifiedCommandHandler<CreateAggregateCommand, bool>> _loggerMock;
 
     public IdentifiedCommandHandlerTest()
     {
         _requestManager = Substitute.For<IRequestManager>();
         _mediator = Substitute.For<IMediator>();
-        _loggerMock = Substitute.For<ILogger<IdentifiedCommandHandler<CreateOrderCommand, bool>>>();
+        _loggerMock = Substitute.For<ILogger<IdentifiedCommandHandler<CreateAggregateCommand, bool>>>();
     }
 
     [Fact]
@@ -18,7 +18,7 @@ public class IdentifiedCommandHandlerTest
     {
         // Arrange
         var fakeGuid = Guid.NewGuid();
-        var fakeOrderCmd = new IdentifiedCommand<CreateOrderCommand, bool>(FakeOrderRequest(), fakeGuid);
+        var fakeOrderCmd = new IdentifiedCommand<CreateAggregateCommand, bool>(FakeOrderRequest(), fakeGuid);
 
         _requestManager.ExistAsync(Arg.Any<Guid>())
             .Returns(Task.FromResult(false));
@@ -27,7 +27,7 @@ public class IdentifiedCommandHandlerTest
             .Returns(Task.FromResult(true));
 
         // Act
-        var handler = new CreateOrderIdentifiedCommandHandler(_mediator, _requestManager, _loggerMock);
+        var handler = new CreateCommandIdentifiedCommandHandler(_mediator, _requestManager, _loggerMock);
         var result = await handler.Handle(fakeOrderCmd, CancellationToken.None);
 
         // Assert
@@ -40,7 +40,7 @@ public class IdentifiedCommandHandlerTest
     {
         // Arrange
         var fakeGuid = Guid.NewGuid();
-        var fakeOrderCmd = new IdentifiedCommand<CreateOrderCommand, bool>(FakeOrderRequest(), fakeGuid);
+        var fakeOrderCmd = new IdentifiedCommand<CreateAggregateCommand, bool>(FakeOrderRequest(), fakeGuid);
 
         _requestManager.ExistAsync(Arg.Any<Guid>())
             .Returns(Task.FromResult(true));
@@ -49,16 +49,16 @@ public class IdentifiedCommandHandlerTest
             .Returns(Task.FromResult(true));
 
         // Act
-        var handler = new CreateOrderIdentifiedCommandHandler(_mediator, _requestManager, _loggerMock);
+        var handler = new CreateCommandIdentifiedCommandHandler(_mediator, _requestManager, _loggerMock);
         var result = await handler.Handle(fakeOrderCmd, CancellationToken.None);
 
         // Assert
         await _mediator.DidNotReceive().Send(Arg.Any<IRequest<bool>>(), default);
     }
 
-    private CreateOrderCommand FakeOrderRequest(Dictionary<string, object> args = null)
+    private CreateAggregateCommand FakeOrderRequest(Dictionary<string, object> args = null)
     {
-        return new CreateOrderCommand(
+        return new CreateAggregateCommand(
             userId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null,
             cardNumber: args != null && args.ContainsKey("cardNumber") ? (string)args["cardNumber"] : "1234"
            );

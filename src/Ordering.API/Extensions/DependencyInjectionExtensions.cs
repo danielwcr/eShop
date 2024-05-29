@@ -1,9 +1,9 @@
-﻿internal static class Extensions
+﻿internal static class DependencyInjectionExtensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         var services = builder.Services;
-        
+
         // Pooling is disabled because of the following error:
         // Unhandled exception. System.InvalidOperationException:
         // The DbContext of type 'OrderingContext' cannot be pooled because it does not have a public constructor accepting a single parameter of type DbContextOptions or has more than one constructor.
@@ -21,7 +21,7 @@
         services.AddTransient<IOrderingIntegrationEventService, OrderingIntegrationEventService>();
 
         builder.AddRabbitMqEventBus("eventbus")
-               .AddEventBusSubscriptions();
+            .AddEventBusSubscriptions();
 
         services.AddHttpContextAccessor();
 
@@ -36,9 +36,9 @@
         });
 
         // Register the command validators for the validator behavior (validators based on FluentValidation library)
-        services.AddSingleton<IValidator<CancelOrderCommand>, CancelOrderCommandValidator>();
-        services.AddSingleton<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
-        services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, IdentifiedCommandValidator>();
+        services.AddSingleton<IValidator<UpdateAgregateCommand>, UpdateCommandCommandValidator>();
+        services.AddSingleton<IValidator<CreateAggregateCommand>, CreateCommandCommandValidator>();
+        services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, IdentifiedCommandValidator>();
 
         services.AddScoped<IOrderQueries, OrderQueries>();
         services.AddScoped<IOrderRepository, OrderRepository>();
@@ -47,6 +47,6 @@
 
     private static void AddEventBusSubscriptions(this IEventBusBuilder eventBus)
     {
-        eventBus.AddSubscription<OrderStockConfirmedIntegrationEvent, OrderStockConfirmedIntegrationEventHandler>();
+        eventBus.AddSubscription<SubToExternalReactionIntegrationEvent, SubToExternalReactionIntegrationEventHandler>();
     }
 }

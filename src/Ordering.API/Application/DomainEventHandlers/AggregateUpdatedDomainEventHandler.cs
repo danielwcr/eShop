@@ -1,15 +1,15 @@
 ﻿namespace EnShop.Ordering.API.Application.DomainEventHandlers;
 
-public partial class OrderCancelledDomainEventHandler
-                : INotificationHandler<OrderCancelledDomainEvent>
+public partial class AggregateUpdatedDomainEventHandler
+                : INotificationHandler<AggregateUpdatedDomainEvent>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly ILogger _logger;
     private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
-    public OrderCancelledDomainEventHandler(
+    public AggregateUpdatedDomainEventHandler(
         IOrderRepository orderRepository,
-        ILogger<OrderCancelledDomainEventHandler> logger,
+        ILogger<AggregateUpdatedDomainEventHandler> logger,
         IOrderingIntegrationEventService orderingIntegrationEventService)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
@@ -17,13 +17,13 @@ public partial class OrderCancelledDomainEventHandler
         _orderingIntegrationEventService = orderingIntegrationEventService;
     }
 
-    public async Task Handle(OrderCancelledDomainEvent domainEvent, CancellationToken cancellationToken)
+    public async Task Handle(AggregateUpdatedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
         OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, OrderStatus.Cancelled);
 
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
-        var integrationEvent = new OrderStatusChangedToCancelledIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
+        var integrationEvent = new AggregateUpdatedIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

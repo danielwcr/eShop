@@ -1,11 +1,11 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 // Regular CommandHandler
-public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, bool>
+public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAgregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
 
-    public CancelOrderCommandHandler(IOrderRepository orderRepository)
+    public UpdateAggregateCommandHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }
@@ -16,7 +16,7 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(CancelOrderCommand command, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateAgregateCommand command, CancellationToken cancellationToken)
     {
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
         if (orderToUpdate == null)
@@ -24,19 +24,19 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
             return false;
         }
 
-        orderToUpdate.SetCancelledStatus();
+        orderToUpdate.UpdateAggregate();
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
 
 
 // Use for Idempotency in Command process
-public class CancelOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CancelOrderCommand, bool>
+public class UpdateCommandIdentifiedCommandHandler : IdentifiedCommandHandler<UpdateAgregateCommand, bool>
 {
-    public CancelOrderIdentifiedCommandHandler(
+    public UpdateCommandIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<CancelOrderCommand, bool>> logger)
+        ILogger<IdentifiedCommandHandler<UpdateAgregateCommand, bool>> logger)
         : base(mediator, requestManager, logger)
     {
     }

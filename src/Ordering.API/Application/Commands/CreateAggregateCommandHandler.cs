@@ -2,18 +2,17 @@
 
 using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
-public class CreateOrderCommandHandler
-    : IRequestHandler<CreateOrderCommand, bool>
+public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
     private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
-    private readonly ILogger<CreateOrderCommandHandler> _logger;
+    private readonly ILogger<CreateAggregateCommandHandler> _logger;
 
-    public CreateOrderCommandHandler(IMediator mediator,
+    public CreateAggregateCommandHandler(IMediator mediator,
         IOrderingIntegrationEventService orderingIntegrationEventService,
         IOrderRepository orderRepository,
-        ILogger<CreateOrderCommandHandler> logger)
+        ILogger<CreateAggregateCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -21,14 +20,14 @@ public class CreateOrderCommandHandler
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(CreateOrderCommand message, CancellationToken cancellationToken)
+    public async Task<bool> Handle(CreateAggregateCommand message, CancellationToken cancellationToken)
     {
-        var orderStartedIntegrationEvent = new OrderStartedIntegrationEvent(message.UserId);
+        var orderStartedIntegrationEvent = new AggregateCreatedIntegrationEvent(message.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent);
 
         var order = new Order(message.UserId, message.CardNumber);
 
-        _logger.LogInformation("Creating Order - Order: {@Order}", order);
+        _logger.LogInformation("CreateCommandCommand: {@Order}", order);
 
         _orderRepository.Add(order);
 
@@ -36,12 +35,12 @@ public class CreateOrderCommandHandler
     }
 }
 
-public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateOrderCommand, bool>
+public class CreateCommandIdentifiedCommandHandler : IdentifiedCommandHandler<CreateAggregateCommand, bool>
 {
-    public CreateOrderIdentifiedCommandHandler(
+    public CreateCommandIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<CreateOrderCommand, bool>> logger)
+        ILogger<IdentifiedCommandHandler<CreateAggregateCommand, bool>> logger)
         : base(mediator, requestManager, logger)
     {
     }

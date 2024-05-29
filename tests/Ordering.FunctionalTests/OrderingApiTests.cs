@@ -75,7 +75,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     public async Task AddNewEmptyOrder()
     {
         // Act
-        var content = new StringContent(JsonSerializer.Serialize(new Order()), UTF8Encoding.UTF8, "application/json")
+        var content = new StringContent(JsonSerializer.Serialize(new GetQueryDto()), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.Empty.ToString() } }
         };
@@ -89,7 +89,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     [Fact]
     public async Task AddNewOrder()
     {
-        var OrderRequest = new CreateOrderCommand("1", "123");
+        var OrderRequest = new CreateAggregateCommand("1", "123");
         var content = new StringContent(JsonSerializer.Serialize(OrderRequest), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.NewGuid().ToString() } }

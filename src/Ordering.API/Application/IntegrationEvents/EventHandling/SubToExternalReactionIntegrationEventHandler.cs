@@ -1,15 +1,15 @@
 ﻿namespace EnShop.Ordering.API.Application.IntegrationEvents.EventHandling;
 
-public class OrderStockConfirmedIntegrationEventHandler(
+public class SubToExternalReactionIntegrationEventHandler(
     IMediator mediator,
-    ILogger<OrderStockConfirmedIntegrationEventHandler> logger) :
-    IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>
+    ILogger<SubToExternalReactionIntegrationEventHandler> logger) :
+    IIntegrationEventHandler<SubToExternalReactionIntegrationEvent>
 {
-    public async Task Handle(OrderStockConfirmedIntegrationEvent @event)
+    public async Task Handle(SubToExternalReactionIntegrationEvent @event)
     {
         logger.LogInformation("Handling integration event: {IntegrationEventId} - ({@IntegrationEvent})", @event.Id, @event);
 
-        var command = new SetStockConfirmedOrderStatusCommand(@event.OrderId);
+        var command = new ChangeAggregateCommand(@event.OrderId);
 
         logger.LogInformation(
             "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",

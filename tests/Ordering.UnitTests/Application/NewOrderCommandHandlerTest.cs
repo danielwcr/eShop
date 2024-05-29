@@ -28,9 +28,9 @@ public class NewOrderRequestHandlerTest
         _orderRepositoryMock.UnitOfWork.SaveChangesAsync(default)
             .Returns(Task.FromResult(1));
 
-        var LoggerMock = Substitute.For<ILogger<CreateOrderCommandHandler>>();
+        var LoggerMock = Substitute.For<ILogger<CreateAggregateCommandHandler>>();
         //Act
-        var handler = new CreateOrderCommandHandler(_mediator, _orderingIntegrationEventService, _orderRepositoryMock, LoggerMock);
+        var handler = new CreateAggregateCommandHandler(_mediator, _orderingIntegrationEventService, _orderRepositoryMock, LoggerMock);
         var cltToken = new CancellationToken();
         var result = await handler.Handle(fakeOrderCmd, cltToken);
 
@@ -43,9 +43,9 @@ public class NewOrderRequestHandlerTest
         return new Order("1", "12");
     }
 
-    private CreateOrderCommand FakeOrderRequestWithBuyer(Dictionary<string, object> args = null)
+    private CreateAggregateCommand FakeOrderRequestWithBuyer(Dictionary<string, object> args = null)
     {
-        return new CreateOrderCommand(
+        return new CreateAggregateCommand(
             userId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null,
             cardNumber: args != null && args.ContainsKey("cardNumber") ? (string)args["cardNumber"] : "1234");
     }

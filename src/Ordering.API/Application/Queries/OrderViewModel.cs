@@ -1,17 +1,15 @@
 ﻿namespace EnShop.Ordering.API.Application.Queries;
 
-public record Order
+public record GetQueryDto
 {
     public int ordernumber { get; init; }
     public DateTime date { get; init; }
     public string status { get; init; }
-    public string description { get; init; }
 }
 
-public record OrderSummary
+public record ListQueryDto
 {
     public int ordernumber { get; init; }
     public DateTime date { get; init; }
     public string status { get; init; }
-    public double total { get; init; }
 }

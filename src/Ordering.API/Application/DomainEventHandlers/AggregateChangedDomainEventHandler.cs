@@ -1,15 +1,15 @@
 ﻿namespace EnShop.Ordering.API.Application.DomainEventHandlers;
 
-public class OrderStatusChangedToStockConfirmedDomainEventHandler
-                : INotificationHandler<OrderStatusChangedToStockConfirmedDomainEvent>
+public class AggregateChangedDomainEventHandler
+                : INotificationHandler<AggregateChangedDomainEvent>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly ILogger _logger;
     private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
-    public OrderStatusChangedToStockConfirmedDomainEventHandler(
+    public AggregateChangedDomainEventHandler(
         IOrderRepository orderRepository,
-        ILogger<OrderStatusChangedToStockConfirmedDomainEventHandler> logger,
+        ILogger<AggregateChangedDomainEventHandler> logger,
         IOrderingIntegrationEventService orderingIntegrationEventService)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
@@ -17,13 +17,13 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler
         _orderingIntegrationEventService = orderingIntegrationEventService;
     }
 
-    public async Task Handle(OrderStatusChangedToStockConfirmedDomainEvent domainEvent, CancellationToken cancellationToken)
+    public async Task Handle(AggregateChangedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
         OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, OrderStatus.StockConfirmed);
 
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
-        var integrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
+        var integrationEvent = new AggregateChangedIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

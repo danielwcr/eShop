@@ -1,9 +1,9 @@
 ﻿namespace EnShop.Ordering.API.Application.IntegrationEvents.Events;
 
-public record OrderStartedIntegrationEvent : IntegrationEvent
+public record AggregateCreatedIntegrationEvent : IntegrationEvent
 {
     public string UserId { get; init; }
 
-    public OrderStartedIntegrationEvent(string userId)
+    public AggregateCreatedIntegrationEvent(string userId)
         => UserId = userId;
 }

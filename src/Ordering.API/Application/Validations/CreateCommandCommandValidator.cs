@@ -1,8 +1,8 @@
 ﻿namespace EnShop.Ordering.API.Application.Validations;
 
-public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
+public class CreateCommandCommandValidator : AbstractValidator<CreateAggregateCommand>
 {
-    public CreateOrderCommandValidator(ILogger<CreateOrderCommandValidator> logger)
+    public CreateCommandCommandValidator(ILogger<CreateCommandCommandValidator> logger)
     {
         RuleFor(command => command.CardNumber).NotEmpty().Length(12, 19);
 

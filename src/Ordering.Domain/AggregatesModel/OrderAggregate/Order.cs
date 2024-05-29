@@ -22,17 +22,17 @@ public class Order : Entity, IAggregateRoot
         OrderDate = DateTime.UtcNow;
         UserId = userId;
 
-        var orderStartedDomainEvent = new OrderStartedDomainEvent(this);
-        this.AddDomainEvent(orderStartedDomainEvent);
+        var domainEvent = new AggregateCreatedDomainEvent(this);
+        this.AddDomainEvent(domainEvent);
     }
 
-    public void SetStockConfirmedStatus()
+    public void ChangeAggregate()
     {
-        AddDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(this));
+        AddDomainEvent(new AggregateChangedDomainEvent(this));
     }
 
-    public void SetCancelledStatus()
+    public void UpdateAggregate()
     {
-        AddDomainEvent(new OrderCancelledDomainEvent(this));
+        AddDomainEvent(new AggregateUpdatedDomainEvent(this));
     }
 }

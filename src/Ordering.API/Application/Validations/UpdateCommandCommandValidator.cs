@@ -1,8 +1,8 @@
 ﻿namespace EnShop.Ordering.API.Application.Validations;
 
-public class CancelOrderCommandValidator : AbstractValidator<CancelOrderCommand>
+public class UpdateCommandCommandValidator : AbstractValidator<UpdateAgregateCommand>
 {
-    public CancelOrderCommandValidator(ILogger<CancelOrderCommandValidator> logger)
+    public UpdateCommandCommandValidator(ILogger<UpdateCommandCommandValidator> logger)
     {
         RuleFor(order => order.OrderNumber).NotEmpty().WithMessage("No orderId found");
 

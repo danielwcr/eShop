@@ -1,11 +1,11 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 // Regular CommandHandler
-public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetStockConfirmedOrderStatusCommand, bool>
+public class ChangeAggregateCommandHandler : IRequestHandler<ChangeAggregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
 
-    public SetStockConfirmedOrderStatusCommandHandler(IOrderRepository orderRepository)
+    public ChangeAggregateCommandHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }
@@ -16,7 +16,7 @@ public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetSto
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(SetStockConfirmedOrderStatusCommand command, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ChangeAggregateCommand command, CancellationToken cancellationToken)
     {
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
         if (orderToUpdate == null)
@@ -24,19 +24,19 @@ public class SetStockConfirmedOrderStatusCommandHandler : IRequestHandler<SetSto
             return false;
         }
 
-        orderToUpdate.SetStockConfirmedStatus();
+        orderToUpdate.ChangeAggregate();
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
 
 
 // Use for Idempotency in Command process
-public class SetStockConfirmedOrderStatusIdentifiedCommandHandler : IdentifiedCommandHandler<SetStockConfirmedOrderStatusCommand, bool>
+public class ChangeAggregateIdentifiedCommandHandler : IdentifiedCommandHandler<ChangeAggregateCommand, bool>
 {
-    public SetStockConfirmedOrderStatusIdentifiedCommandHandler(
+    public ChangeAggregateIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<SetStockConfirmedOrderStatusCommand, bool>> logger)
+        ILogger<IdentifiedCommandHandler<ChangeAggregateCommand, bool>> logger)
         : base(mediator, requestManager, logger)
     {
     }

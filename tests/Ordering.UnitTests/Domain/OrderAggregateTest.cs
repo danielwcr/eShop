@@ -26,7 +26,7 @@ public class OrderAggregateTest
         var expectedResult = 2;
 
         var fakeOrder = new Order("1", cardNumber);
-        fakeOrder.AddDomainEvent(new OrderStartedDomainEvent(fakeOrder));
+        fakeOrder.AddDomainEvent(new AggregateCreatedDomainEvent(fakeOrder));
 
         Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
     }
@@ -36,7 +36,7 @@ public class OrderAggregateTest
     {
         var cardNumber = "12";
         var fakeOrder = new Order("1", cardNumber);
-        var fakeEvent = new OrderStartedDomainEvent(fakeOrder);
+        var fakeEvent = new AggregateCreatedDomainEvent(fakeOrder);
         var expectedResult = 1;
 
         fakeOrder.AddDomainEvent(fakeEvent);

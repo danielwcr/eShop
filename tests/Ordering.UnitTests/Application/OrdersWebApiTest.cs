@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http.HttpResults;
 using EnShop.Ordering.API.Application.Queries;
-using Order = EnShop.Ordering.API.Application.Queries.Order;
+using GetQueryDto = EnShop.Ordering.API.Application.Queries.GetQueryDto;
 using NSubstitute.ExceptionExtensions;
 
 public class OrdersWebApiTest
@@ -22,12 +22,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_with_requestId_success()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<CancelOrderCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAgregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.CancelOrderAsync(Guid.NewGuid(), new CancelOrderCommand(1), orderServices);
+        var result = await OrdersApi.UpdateCommandAsync(Guid.NewGuid(), new UpdateAgregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<Ok>(result.Result);
@@ -37,12 +37,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_bad_request()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<CancelOrderCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAgregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.CancelOrderAsync(Guid.Empty, new CancelOrderCommand(1), orderServices);
+        var result = await OrdersApi.UpdateCommandAsync(Guid.Empty, new UpdateAgregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<BadRequest<string>>(result.Result);
@@ -52,17 +52,17 @@ public class OrdersWebApiTest
     public async Task Get_orders_success()
     {
         // Arrange
-        var fakeDynamicResult = Enumerable.Empty<OrderSummary>();
+        var fakeDynamicResult = Enumerable.Empty<ListQueryDto>();
 
-        _orderQueriesMock.GetOrdersFromUserAsync(Guid.NewGuid().ToString())
+        _orderQueriesMock.ListQueryAsync(Guid.NewGuid().ToString())
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetOrdersByUserAsync("1", orderServices);
+        var result = await OrdersApi.ListQueryAsync("1", orderServices);
 
         // Assert
-        Assert.IsType<Ok<IEnumerable<OrderSummary>>>(result);
+        Assert.IsType<Ok<IEnumerable<ListQueryDto>>>(result);
     }
 
     [Fact]
@@ -70,16 +70,16 @@ public class OrdersWebApiTest
     {
         // Arrange
         var fakeOrderId = 123;
-        var fakeDynamicResult = new Order();
-        _orderQueriesMock.GetOrderAsync(Arg.Any<int>())
+        var fakeDynamicResult = new GetQueryDto();
+        _orderQueriesMock.GetQueryAsync(Arg.Any<int>())
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetOrderAsync(fakeOrderId, orderServices);
+        var result = await OrdersApi.GetQueryAsync(fakeOrderId, orderServices);
 
         // Assert
-        var okResult = Assert.IsType<Ok<Order>>(result.Result);
+        var okResult = Assert.IsType<Ok<GetQueryDto>>(result.Result);
         Assert.Same(fakeDynamicResult, okResult.Value);
     }
 
@@ -89,13 +89,13 @@ public class OrdersWebApiTest
         // Arrange
         var fakeOrderId = 123;
 #pragma warning disable NS5003
-        _orderQueriesMock.GetOrderAsync(Arg.Any<int>())
+        _orderQueriesMock.GetQueryAsync(Arg.Any<int>())
             .Throws(new KeyNotFoundException());
 #pragma warning restore NS5003
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetOrderAsync(fakeOrderId, orderServices);
+        var result = await OrdersApi.GetQueryAsync(fakeOrderId, orderServices);
 
         // Assert
         Assert.IsType<NotFound>(result.Result);

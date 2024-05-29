@@ -1,8 +1,7 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 [DataContract]
-public class CreateOrderCommand
-    : IRequest<bool>
+public class CreateAggregateCommand : IRequest<bool>
 {
     [DataMember]
     public string UserId { get; private set; }
@@ -11,7 +10,7 @@ public class CreateOrderCommand
     public string CardNumber { get; private set; }
 
 
-    public CreateOrderCommand(string userId, string cardNumber)
+    public CreateAggregateCommand(string userId, string cardNumber)
     {
         UserId = userId;
         CardNumber = cardNumber;
