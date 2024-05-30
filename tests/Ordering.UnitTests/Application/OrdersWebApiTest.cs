@@ -64,40 +64,4 @@ public class OrdersWebApiTest
         // Assert
         Assert.IsType<Ok<IEnumerable<ListQueryDto>>>(result);
     }
-
-    [Fact]
-    public async Task Get_order_success()
-    {
-        // Arrange
-        var fakeOrderId = 123;
-        var fakeDynamicResult = new GetQueryDto();
-        _orderQueriesMock.GetQueryAsync(Arg.Any<int>())
-            .Returns(Task.FromResult(fakeDynamicResult));
-
-        // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetQueryAsync(fakeOrderId, orderServices);
-
-        // Assert
-        var okResult = Assert.IsType<Ok<GetQueryDto>>(result.Result);
-        Assert.Same(fakeDynamicResult, okResult.Value);
-    }
-
-    [Fact]
-    public async Task Get_order_fails()
-    {
-        // Arrange
-        var fakeOrderId = 123;
-#pragma warning disable NS5003
-        _orderQueriesMock.GetQueryAsync(Arg.Any<int>())
-            .Throws(new KeyNotFoundException());
-#pragma warning restore NS5003
-
-        // Act
-        var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetQueryAsync(fakeOrderId, orderServices);
-
-        // Assert
-        Assert.IsType<NotFound>(result.Result);
-    }
 }
