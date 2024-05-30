@@ -8,9 +8,7 @@ public class OrderBuilder
 
     public OrderBuilder()
     {
-        order = new Order(
-            "userId",
-            cardNumber: "12");
+        order = new Order("userId");
     }
 
     public Order Build()

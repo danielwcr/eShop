@@ -25,7 +25,7 @@ public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateComm
         var orderStartedIntegrationEvent = new AggregateCreatedIntegrationEvent(message.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent);
 
-        var order = new Order(message.UserId, message.CardNumber);
+        var order = new Order(message.UserId);
 
         _logger.LogInformation("CreateCommandCommand: {@Order}", order);
 

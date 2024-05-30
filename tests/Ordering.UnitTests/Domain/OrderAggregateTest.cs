@@ -11,10 +11,9 @@ public class OrderAggregateTest
     [Fact]
     public void Add_new_Order_raises_new_event()
     {
-        var cardNumber = "12";
         var expectedResult = 1;
 
-        var fakeOrder = new Order("1", cardNumber);
+        var fakeOrder = new Order("1");
 
         Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
     }
@@ -22,10 +21,9 @@ public class OrderAggregateTest
     [Fact]
     public void Add_event_Order_explicitly_raises_new_event()
     {
-        var cardNumber = "12";
         var expectedResult = 2;
 
-        var fakeOrder = new Order("1", cardNumber);
+        var fakeOrder = new Order("1");
         fakeOrder.AddDomainEvent(new AggregateCreatedDomainEvent(fakeOrder));
 
         Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
@@ -34,8 +32,7 @@ public class OrderAggregateTest
     [Fact]
     public void Remove_event_Order_explicitly()
     {
-        var cardNumber = "12";
-        var fakeOrder = new Order("1", cardNumber);
+        var fakeOrder = new Order("1");
         var fakeEvent = new AggregateCreatedDomainEvent(fakeOrder);
         var expectedResult = 1;
 

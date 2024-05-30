@@ -3,13 +3,11 @@
 public record AggregateUpdatedIntegrationEvent : IntegrationEvent
 {
     public int OrderId { get; }
-    public OrderStatus OrderStatus { get; }
     public string UserId { get; }
 
-    public AggregateUpdatedIntegrationEvent(int orderId, OrderStatus orderStatus, string userId)
+    public AggregateUpdatedIntegrationEvent(int orderId, string userId)
     {
         OrderId = orderId;
-        OrderStatus = orderStatus;
         UserId = userId;
     }
 }

@@ -12,8 +12,7 @@ class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .UseHiLo("orderseq");
 
         orderConfiguration
-            .Property(o => o.OrderStatus)
-            .HasConversion<string>()
-            .HasMaxLength(30);
+            .Property(o => o.UserId)
+            .HasConversion<string>();
     }
 }

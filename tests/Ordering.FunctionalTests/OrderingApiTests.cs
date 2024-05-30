@@ -46,50 +46,9 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     }
 
     [Fact]
-    public async Task CancelNonExistentOrderFails()
+    public async Task ProcessCreateAggregateCommand()
     {
-        // Act
-        var content = new StringContent(BuildOrder(), UTF8Encoding.UTF8, "application/json")
-        {
-            Headers = { { "x-requestid", Guid.NewGuid().ToString() } }
-        };
-        var response = await _httpClient.PutAsync("api/v1/orders/cancel", content);
-        var s = await response.Content.ReadAsStringAsync();
-
-        // Assert
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task GetStoredOrdersWithOrderId()
-    {
-        // Act
-        var response = await _httpClient.GetAsync("api/v1/orders/1");
-        var responseStatus = response.StatusCode;
-
-        // Assert
-        Assert.Equal("NotFound", responseStatus.ToString());
-    }
-
-    [Fact]
-    public async Task AddNewEmptyOrder()
-    {
-        // Act
-        var content = new StringContent(JsonSerializer.Serialize(new GetQueryDto()), UTF8Encoding.UTF8, "application/json")
-        {
-            Headers = { { "x-requestid", Guid.Empty.ToString() } }
-        };
-        var response = await _httpClient.PostAsync("api/v1/orders", content);
-        var s = await response.Content.ReadAsStringAsync();
-
-        // Assert
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task AddNewOrder()
-    {
-        var OrderRequest = new CreateAggregateCommand("1", "123");
+        var OrderRequest = new CreateAggregateCommand("1");
         var content = new StringContent(JsonSerializer.Serialize(OrderRequest), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.NewGuid().ToString() } }

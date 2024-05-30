@@ -23,7 +23,7 @@ public partial class AggregateUpdatedDomainEventHandler
 
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
-        var integrationEvent = new AggregateUpdatedIntegrationEvent(order.Id, order.OrderStatus, order.UserId);
+        var integrationEvent = new AggregateUpdatedIntegrationEvent(order.Id, order.UserId);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

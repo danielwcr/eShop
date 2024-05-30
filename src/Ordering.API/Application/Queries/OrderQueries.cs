@@ -13,8 +13,6 @@ public class OrderQueries(OrderingContext context) : IOrderQueries
         return new GetQueryDto
         {
             ordernumber = order.Id,
-            date = order.OrderDate,
-            status = order.OrderStatus.ToString()
         };
     }
 
@@ -25,8 +23,6 @@ public class OrderQueries(OrderingContext context) : IOrderQueries
             .Select(o => new ListQueryDto
             {
                 ordernumber = o.Id,
-                date = o.OrderDate,
-                status = o.OrderStatus.ToString(),
             })
             .ToListAsync();
     }

@@ -4,7 +4,7 @@ public class CreateCommandCommandValidator : AbstractValidator<CreateAggregateCo
 {
     public CreateCommandCommandValidator(ILogger<CreateCommandCommandValidator> logger)
     {
-        RuleFor(command => command.CardNumber).NotEmpty().Length(12, 19);
+        RuleFor(command => command.UserId).NotNull();
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
