@@ -27,7 +27,7 @@ public class OrdersWebApiTest
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateCommandAsync(Guid.NewGuid(), new UpdateAgregateCommand(1), orderServices);
+        var result = await OrdersApi.UpdateAggregateAsync(Guid.NewGuid(), new UpdateAgregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<Ok>(result.Result);
@@ -42,7 +42,7 @@ public class OrdersWebApiTest
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateCommandAsync(Guid.Empty, new UpdateAgregateCommand(1), orderServices);
+        var result = await OrdersApi.UpdateAggregateAsync(Guid.Empty, new UpdateAgregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<BadRequest<string>>(result.Result);

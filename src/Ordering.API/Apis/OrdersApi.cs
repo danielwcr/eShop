@@ -4,15 +4,15 @@ public static class OrdersApi
 {
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
-        app.MapPost("/create-command", CreateCommandAsync);
-        app.MapPost("/update-command", UpdateCommandAsync);
+        app.MapPost("/create-aggregate", CreateAggregateAsync);
+        app.MapPost("/update-aggregate", UpdateAggregateAsync);
         app.MapGet("/get-query", GetQueryAsync);
         app.MapGet("/list-query", ListQueryAsync);
 
         return app;
     }
 
-    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> CreateCommandAsync(
+    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> CreateAggregateAsync(
      [FromHeader(Name = "x-requestid")] Guid requestId,
      CreateAggregateCommand command,
      [AsParameters] OrderServices services)
@@ -37,14 +37,14 @@ public static class OrdersApi
 
             if (!commandResult)
             {
-                return TypedResults.Problem(detail: "CreateCommandCommand failed to process.", statusCode: 500);
+                return TypedResults.Problem(detail: "CreateAggregateCommand failed to process.", statusCode: 500);
             }
 
             return TypedResults.Ok();
         }
     }
 
-    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> UpdateCommandAsync(
+    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> UpdateAggregateAsync(
         [FromHeader(Name = "x-requestid")] Guid requestId,
         UpdateAgregateCommand command,
         [AsParameters] OrderServices services)
@@ -67,7 +67,7 @@ public static class OrdersApi
 
         if (!commandResult)
         {
-            return TypedResults.Problem(detail: "UpdateCommandCommand failed to process.", statusCode: 500);
+            return TypedResults.Problem(detail: "UpdateAgregateCommand failed to process.", statusCode: 500);
         }
 
         return TypedResults.Ok();
@@ -91,5 +91,4 @@ public static class OrdersApi
         var orders = await services.Queries.ListQueryAsync(userId);
         return TypedResults.Ok(orders);
     }
-
 }
