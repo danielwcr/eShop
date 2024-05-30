@@ -1,0 +1,15 @@
+{
+  "solution": {
+    "path": "EnShop.sln",
+    "projects": [
+      "src\\EventBusRabbitMQ\\EventBusRabbitMQ.csproj",
+      "src\\EventBus\\EventBus.csproj",
+      "src\\IntegrationEventLogEF\\IntegrationEventLogEF.csproj",
+      "src\\Ordering.API\\Ordering.API.csproj",
+      "src\\Ordering.Domain\\Ordering.Domain.csproj",
+      "src\\Ordering.Infrastructure\\Ordering.Infrastructure.csproj",
+      "tests\\Ordering.FunctionalTests\\Ordering.FunctionalTests.csproj",
+      "tests\\Ordering.UnitTests\\Ordering.UnitTests.csproj"
+    ]
+  }
+}
