@@ -36,7 +36,7 @@
         });
 
         // Register the command validators for the validator behavior (validators based on FluentValidation library)
-        services.AddSingleton<IValidator<UpdateAgregateCommand>, UpdateCommandCommandValidator>();
+        services.AddSingleton<IValidator<UpdateAggregateCommand>, UpdateCommandCommandValidator>();
         services.AddSingleton<IValidator<CreateAggregateCommand>, CreateCommandCommandValidator>();
         services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, IdentifiedCommandValidator>();
 

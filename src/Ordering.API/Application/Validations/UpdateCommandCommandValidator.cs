@@ -1,6 +1,6 @@
 ﻿namespace EnShop.Ordering.API.Application.Validations;
 
-public class UpdateCommandCommandValidator : AbstractValidator<UpdateAgregateCommand>
+public class UpdateCommandCommandValidator : AbstractValidator<UpdateAggregateCommand>
 {
     public UpdateCommandCommandValidator(ILogger<UpdateCommandCommandValidator> logger)
     {

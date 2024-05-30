@@ -22,12 +22,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_with_requestId_success()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAgregateCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAggregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateAggregateAsync(Guid.NewGuid(), new UpdateAgregateCommand(1), orderServices);
+        var result = await OrdersApi.UpdateAggregateAsync(Guid.NewGuid(), new UpdateAggregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<Ok>(result.Result);
@@ -37,12 +37,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_bad_request()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAgregateCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAggregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateAggregateAsync(Guid.Empty, new UpdateAgregateCommand(1), orderServices);
+        var result = await OrdersApi.UpdateAggregateAsync(Guid.Empty, new UpdateAggregateCommand(1), orderServices);
 
         // Assert
         Assert.IsType<BadRequest<string>>(result.Result);

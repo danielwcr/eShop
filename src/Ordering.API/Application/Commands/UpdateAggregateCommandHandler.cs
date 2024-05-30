@@ -1,7 +1,7 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 // Regular CommandHandler
-public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAgregateCommand, bool>
+public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAggregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
 
@@ -16,7 +16,7 @@ public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAgregateComma
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(UpdateAgregateCommand command, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateAggregateCommand command, CancellationToken cancellationToken)
     {
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
         if (orderToUpdate == null)
@@ -31,12 +31,12 @@ public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAgregateComma
 
 
 // Use for Idempotency in Command process
-public class UpdateCommandIdentifiedCommandHandler : IdentifiedCommandHandler<UpdateAgregateCommand, bool>
+public class UpdateCommandIdentifiedCommandHandler : IdentifiedCommandHandler<UpdateAggregateCommand, bool>
 {
     public UpdateCommandIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
-        ILogger<IdentifiedCommandHandler<UpdateAgregateCommand, bool>> logger)
+        ILogger<IdentifiedCommandHandler<UpdateAggregateCommand, bool>> logger)
         : base(mediator, requestManager, logger)
     {
     }

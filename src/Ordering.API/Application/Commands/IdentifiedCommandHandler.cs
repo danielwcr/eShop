@@ -60,7 +60,7 @@ public abstract class IdentifiedCommandHandler<T, R> : IRequestHandler<Identifie
                         commandId = createCommandCommand.UserId;
                         break;
 
-                    case UpdateAgregateCommand updateCommandCommand:
+                    case UpdateAggregateCommand updateCommandCommand:
                         idProperty = nameof(updateCommandCommand.OrderNumber);
                         commandId = $"{updateCommandCommand.OrderNumber}";
                         break;

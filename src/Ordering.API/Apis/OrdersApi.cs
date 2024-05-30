@@ -46,7 +46,7 @@ public static class OrdersApi
 
     public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> UpdateAggregateAsync(
         [FromHeader(Name = "x-requestid")] Guid requestId,
-        UpdateAgregateCommand command,
+        UpdateAggregateCommand command,
         [AsParameters] OrderServices services)
     {
         if (requestId == Guid.Empty)
@@ -54,7 +54,7 @@ public static class OrdersApi
             return TypedResults.BadRequest("RequestId is missing.");
         }
 
-        var requestUpdateCommand = new IdentifiedCommand<UpdateAgregateCommand, bool>(command, requestId);
+        var requestUpdateCommand = new IdentifiedCommand<UpdateAggregateCommand, bool>(command, requestId);
 
         services.Logger.LogInformation(
             "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
