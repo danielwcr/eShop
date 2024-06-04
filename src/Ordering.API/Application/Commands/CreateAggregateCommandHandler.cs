@@ -1,6 +1,7 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateCommand, bool>
 {
@@ -20,16 +21,17 @@ public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateComm
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(CreateAggregateCommand message, CancellationToken cancellationToken)
+    public async Task<bool> Handle(CreateAggregateCommand command, CancellationToken cancellationToken)
     {
-        var orderStartedIntegrationEvent = new AggregateCreatedIntegrationEvent(message.UserId);
-        await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStartedIntegrationEvent);
-
-        var order = new Order(message.UserId);
-
-        _logger.LogInformation("CreateCommandCommand: {@Order}", order);
-
+        var order = new Order(command.UserId);
         _orderRepository.Add(order);
+
+        var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);
+        if (orderToUpdate == null)
+        {
+            return false;
+        }
+        orderToUpdate.ChangeAggregate();
 
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }

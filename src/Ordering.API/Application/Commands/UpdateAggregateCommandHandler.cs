@@ -18,7 +18,7 @@ public class UpdateAggregateCommandHandler : IRequestHandler<UpdateAggregateComm
     /// <returns></returns>
     public async Task<bool> Handle(UpdateAggregateCommand command, CancellationToken cancellationToken)
     {
-        var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
+        var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);
         if (orderToUpdate == null)
         {
             return false;

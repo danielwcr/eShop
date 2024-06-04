@@ -48,7 +48,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
     [Fact]
     public async Task ProcessCreateAggregateCommand()
     {
-        var OrderRequest = new CreateAggregateCommand("1");
+        var OrderRequest = new CreateAggregateCommand(0, "1");
         var content = new StringContent(JsonSerializer.Serialize(OrderRequest), UTF8Encoding.UTF8, "application/json")
         {
             Headers = { { "x-requestid", Guid.NewGuid().ToString() } }

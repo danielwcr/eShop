@@ -59,7 +59,8 @@ public class IdentifiedCommandHandlerTest
     private CreateAggregateCommand FakeOrderRequest(Dictionary<string, object> args = null)
     {
         return new CreateAggregateCommand(
-            userId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null            
-           );
+             0,
+            userId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null
+            );
     }
 }

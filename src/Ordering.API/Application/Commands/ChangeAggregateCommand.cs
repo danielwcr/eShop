@@ -1,3 +1,3 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
-public record ChangeAggregateCommand(int OrderNumber) : IRequest<bool>;
+public record ChangeAggregateCommand(int OrderId) : IRequest<bool>;

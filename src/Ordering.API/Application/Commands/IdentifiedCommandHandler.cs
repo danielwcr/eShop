@@ -55,14 +55,9 @@ public abstract class IdentifiedCommandHandler<T, R> : IRequestHandler<Identifie
 
                 switch (command)
                 {
-                    case CreateAggregateCommand createCommandCommand:
-                        idProperty = nameof(createCommandCommand.UserId);
-                        commandId = createCommandCommand.UserId;
-                        break;
-
                     case UpdateAggregateCommand updateCommandCommand:
-                        idProperty = nameof(updateCommandCommand.OrderNumber);
-                        commandId = $"{updateCommandCommand.OrderNumber}";
+                        idProperty = nameof(updateCommandCommand.OrderId);
+                        commandId = $"{updateCommandCommand.OrderId}";
                         break;
 
                     default:
