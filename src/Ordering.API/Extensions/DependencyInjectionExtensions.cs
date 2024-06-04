@@ -35,10 +35,10 @@
             cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
         });
 
-        // Register the command validators for the validator behavior (validators based on FluentValidation library)
-        services.AddSingleton<IValidator<UpdateAggregateCommand>, UpdateCommandCommandValidator>();
-        services.AddSingleton<IValidator<CreateAggregateCommand>, CreateCommandCommandValidator>();
+        // Register the command validators
+        services.AddSingleton<IValidator<UpdateAggregateCommand>, UpdateAggregateCommandValidator>();
         services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, IdentifiedCommandValidator>();
+        services.AddSingleton<IValidator<CreateAggregateCommand>, CreateAggregateCommandValidator>();
 
         services.AddScoped<IOrderQueries, OrderQueries>();
         services.AddScoped<IOrderRepository, OrderRepository>();

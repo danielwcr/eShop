@@ -1,8 +1,8 @@
 ﻿namespace EnShop.Ordering.API.Application.Validations;
 
-public class CreateCommandCommandValidator : AbstractValidator<CreateAggregateCommand>
+public class CreateAggregateCommandValidator : AbstractValidator<CreateAggregateCommand>
 {
-    public CreateCommandCommandValidator(ILogger<CreateCommandCommandValidator> logger)
+    public CreateAggregateCommandValidator(ILogger<CreateAggregateCommandValidator> logger)
     {
         RuleFor(command => command.UserId).NotNull();
 
