@@ -3,9 +3,8 @@
 namespace EnShop.Ordering.Infrastructure;
 
 /// <remarks>
-/// Add migrations using the following command inside the 'Ordering.Infrastructure' project directory:
-///
-/// dotnet ef migrations add --startup-project Ordering.API --context OrderingContext [migration-name]
+/// Add migrations using the following command inside the 'Ordering.API' project directory:
+/// dotnet ef migrations add [migration-name] --context OrderingContext --project ..\Ordering.Infrastructure
 /// </remarks>
 public class OrderingContext : DbContext, IUnitOfWork
 {
