@@ -3,21 +3,33 @@
 public class ChangeAggregateCommandHandler : IRequestHandler<ChangeAggregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IMediator _mediator;
+    private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
+    private readonly ILogger<CreateAggregateCommandHandler> _logger;
 
-    public ChangeAggregateCommandHandler(IOrderRepository orderRepository)
+    public ChangeAggregateCommandHandler(IMediator mediator,
+        IOrderingIntegrationEventService orderingIntegrationEventService,
+        IOrderRepository orderRepository,
+        ILogger<CreateAggregateCommandHandler> logger)
     {
-        _orderRepository = orderRepository;
+        _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<bool> Handle(ChangeAggregateCommand command, CancellationToken cancellationToken)
     {
+        var order = new Order(default);
+        _orderRepository.Add(order);
+
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);
         if (orderToUpdate == null)
         {
             return false;
         }
-
         orderToUpdate.ChangeAggregate();
+
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }

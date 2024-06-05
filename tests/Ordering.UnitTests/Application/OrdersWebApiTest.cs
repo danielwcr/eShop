@@ -2,8 +2,6 @@
 
 using Microsoft.AspNetCore.Http.HttpResults;
 using EnShop.Ordering.API.Application.Queries;
-using GetQueryDto = EnShop.Ordering.API.Application.Queries.GetQueryDto;
-using NSubstitute.ExceptionExtensions;
 
 public class OrdersWebApiTest
 {
@@ -22,12 +20,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_with_requestId_success()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAggregateCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<CreateAggregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateAggregateAsync(Guid.NewGuid(), new UpdateAggregateCommand(1), orderServices);
+        var result = await OrdersApi.CreateAggregateAsync(Guid.NewGuid(), new CreateAggregateCommand(1, ""), orderServices);
 
         // Assert
         Assert.IsType<Ok>(result.Result);
@@ -37,12 +35,12 @@ public class OrdersWebApiTest
     public async Task Cancel_order_bad_request()
     {
         // Arrange
-        _mediatorMock.Send(Arg.Any<IdentifiedCommand<UpdateAggregateCommand, bool>>(), default)
+        _mediatorMock.Send(Arg.Any<IdentifiedCommand<CreateAggregateCommand, bool>>(), default)
             .Returns(Task.FromResult(true));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.UpdateAggregateAsync(Guid.Empty, new UpdateAggregateCommand(1), orderServices);
+        var result = await OrdersApi.CreateAggregateAsync(Guid.Empty, new CreateAggregateCommand(1, ""), orderServices);
 
         // Assert
         Assert.IsType<BadRequest<string>>(result.Result);

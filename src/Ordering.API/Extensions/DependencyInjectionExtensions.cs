@@ -36,7 +36,6 @@
         });
 
         // Register the command validators
-        services.AddSingleton<IValidator<UpdateAggregateCommand>, UpdateAggregateCommandValidator>();
         services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, IdentifiedCommandValidator>();
         services.AddSingleton<IValidator<CreateAggregateCommand>, CreateAggregateCommandValidator>();
 

@@ -4,15 +4,15 @@ public static class OrdersApi
 {
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
-        app.MapPost("/update-aggregate", UpdateAggregateAsync);
+        app.MapPost("/create-aggregate", CreateAggregateAsync);
         app.MapGet("/list-query", ListQueryAsync);
 
         return app;
     }
 
-    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> UpdateAggregateAsync(
+    public static async Task<Results<Ok, BadRequest<string>, ProblemHttpResult>> CreateAggregateAsync(
      [FromHeader(Name = "x-requestid")] Guid requestId,
-     UpdateAggregateCommand command,
+     CreateAggregateCommand command,
      [AsParameters] OrderServices services)
     {
         if (requestId == Guid.Empty)
@@ -22,7 +22,7 @@ public static class OrdersApi
 
         using (services.Logger.BeginScope(new List<KeyValuePair<string, object>> { new("IdentifiedCommandId", requestId) }))
         {
-            var identifiedCommand = new IdentifiedCommand<UpdateAggregateCommand, bool>(command, requestId);
+            var identifiedCommand = new IdentifiedCommand<CreateAggregateCommand, bool>(command, requestId);
 
             services.Logger.LogInformation(
                 "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
@@ -42,7 +42,9 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<ListQueryDto>>> ListQueryAsync([FromQuery] string userId, [AsParameters] OrderServices services)
+    public static async Task<Ok<IEnumerable<ListQueryDto>>> ListQueryAsync(
+        [FromQuery] string userId,
+        [AsParameters] OrderServices services)
     {
         var orders = await services.Queries.ListQueryAsync(userId);
         return TypedResults.Ok(orders);

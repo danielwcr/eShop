@@ -19,8 +19,6 @@ public class AggregateChangedDomainEventHandler
 
     public async Task Handle(AggregateChangedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, OrderStatus.StockConfirmed);
-
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
 
         var integrationEvent = new AggregateChangedIntegrationEvent(order.Id, order.UserId);

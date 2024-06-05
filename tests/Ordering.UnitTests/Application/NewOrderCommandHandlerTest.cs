@@ -47,7 +47,7 @@ public class NewOrderRequestHandlerTest
     {
         return new CreateAggregateCommand(
             0,
-            userId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null
+            UserId: args != null && args.ContainsKey("userId") ? (string)args["userId"] : null
             );
     }
 }
