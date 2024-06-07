@@ -14,8 +14,7 @@ public class Order : Entity, IAggregateRoot
     {
         UserId = userId;
 
-        var domainEvent = new AggregateCreatedDomainEvent(this);
-        this.AddDomainEvent(domainEvent);
+        AddDomainEvent(new AggregateCreatedDomainEvent(this));
     }
 
     public void ChangeAggregate()

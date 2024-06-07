@@ -1,7 +1,6 @@
 ﻿namespace EnShop.Ordering.API.Application.Commands;
 
 using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateCommand, bool>
 {
