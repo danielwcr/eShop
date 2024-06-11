@@ -50,16 +50,16 @@ public class OrdersWebApiTest
     public async Task Get_orders_success()
     {
         // Arrange
-        var fakeDynamicResult = Enumerable.Empty<ListQueryDto>();
+        var fakeDynamicResult = Enumerable.Empty<Details>();
 
-        _orderQueriesMock.ListQueryAsync(Guid.NewGuid().ToString())
+        _orderQueriesMock.GetDetailsByFilterAsync(Guid.NewGuid().ToString())
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.ListQueryAsync("1", orderServices);
+        var result = await OrdersApi.GetDetailsByFilterAsync("1", orderServices);
 
         // Assert
-        Assert.IsType<Ok<IEnumerable<ListQueryDto>>>(result);
+        Assert.IsType<Ok<IEnumerable<Details>>>(result);
     }
 }

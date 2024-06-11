@@ -4,7 +4,7 @@ public class CreateAggregateCommandValidator : AbstractValidator<CreateAggregate
 {
     public CreateAggregateCommandValidator(ILogger<CreateAggregateCommandValidator> logger)
     {
-        RuleFor(command => command.UserId).NotNull();
+        RuleFor(command => command).NotNull();
 
         if (logger.IsEnabled(LogLevel.Trace))
         {

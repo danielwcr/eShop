@@ -2,5 +2,5 @@
 
 public interface IOrderQueries
 {
-    Task<IEnumerable<ListQueryDto>> ListQueryAsync(string userId);
+    Task<IEnumerable<Details>> GetDetailsByFilterAsync(string filter);
 }

@@ -5,7 +5,7 @@ public static class OrdersApi
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
         app.MapPost("/create-aggregate", CreateAggregateAsync);
-        app.MapGet("/list-query", ListQueryAsync);
+        app.MapGet("/get-details-by-filter", GetDetailsByFilterAsync);
 
         return app;
     }
@@ -42,11 +42,11 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<ListQueryDto>>> ListQueryAsync(
-        [FromQuery] string userId,
+    public static async Task<Ok<IEnumerable<Details>>> GetDetailsByFilterAsync(
+        [FromQuery] string filter,
         [AsParameters] OrderServices services)
     {
-        var orders = await services.Queries.ListQueryAsync(userId);
-        return TypedResults.Ok(orders);
+        var result = await services.Queries.GetDetailsByFilterAsync(filter);
+        return TypedResults.Ok(result);
     }
 }

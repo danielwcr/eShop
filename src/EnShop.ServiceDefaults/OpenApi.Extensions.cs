@@ -131,7 +131,7 @@ public static partial class Extensions
                 }
             });
 
-            options.OperationFilter<AuthorizeCheckOperationFilter>([scopes.Keys.ToArray()]);
+            options.OperationFilter<AuthorizeCheckOperationFilter>(scopes.Keys.ToArray());
         });
 
         return builder;

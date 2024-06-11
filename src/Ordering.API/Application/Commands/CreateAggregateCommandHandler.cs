@@ -22,7 +22,7 @@ public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateComm
 
     public async Task<bool> Handle(CreateAggregateCommand command, CancellationToken cancellationToken)
     {
-        var order = new Order(default);
+        var order = new Order(command.UserId);
         _orderRepository.Add(order);
 
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);

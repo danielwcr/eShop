@@ -50,38 +50,18 @@ public abstract class IdentifiedCommandHandler<T, R> : IRequestHandler<Identifie
             {
                 var command = message.Command;
                 var commandName = command.GetGenericTypeName();
-                var idProperty = string.Empty;
-                var commandId = string.Empty;
-
-                switch (command)
-                {
-                    case CreateAggregateCommand createAggregateCommand:
-                        idProperty = nameof(createAggregateCommand.OrderId);
-                        commandId = $"{createAggregateCommand.OrderId}";
-                        break;
-
-                    default:
-                        idProperty = "Id?";
-                        commandId = "n/a";
-                        break;
-                }
 
                 _logger.LogInformation(
-                    "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                    "Sending command: {CommandName} ({@Command})",
                     commandName,
-                    idProperty,
-                    commandId,
                     command);
 
-                // Send the embedded business command to mediator so it runs its related CommandHandler 
                 var result = await _mediator.Send(command, cancellationToken);
 
                 _logger.LogInformation(
-                    "Command result: {@Result} - {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                    "Command result: {@Result} - {CommandName} ({@Command})",
                     result,
                     commandName,
-                    idProperty,
-                    commandId,
                     command);
 
                 return result;

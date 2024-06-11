@@ -5,12 +5,12 @@ public class ChangeAggregateCommandHandler : IRequestHandler<ChangeAggregateComm
     private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
     private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
-    private readonly ILogger<CreateAggregateCommandHandler> _logger;
+    private readonly ILogger<ChangeAggregateCommandHandler> _logger;
 
     public ChangeAggregateCommandHandler(IMediator mediator,
         IOrderingIntegrationEventService orderingIntegrationEventService,
         IOrderRepository orderRepository,
-        ILogger<CreateAggregateCommandHandler> logger)
+        ILogger<ChangeAggregateCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -20,9 +20,6 @@ public class ChangeAggregateCommandHandler : IRequestHandler<ChangeAggregateComm
 
     public async Task<bool> Handle(ChangeAggregateCommand command, CancellationToken cancellationToken)
     {
-        var order = new Order(default);
-        _orderRepository.Add(order);
-
         var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);
         if (orderToUpdate == null)
         {

@@ -2,13 +2,13 @@
 
 public class OrderQueries(OrderingContext context) : IOrderQueries
 {
-    public async Task<IEnumerable<ListQueryDto>> ListQueryAsync(string userId)
+    public async Task<IEnumerable<Details>> GetDetailsByFilterAsync(string filter)
     {
         return await context.Orders
-            .Select(o => new ListQueryDto
+            .Select(o => new Details
             {
-                id = o.Id,
-                userId = o.UserId,
+                Id = o.Id,
+                UserId = o.UserId,
             })
             .ToListAsync();
     }
