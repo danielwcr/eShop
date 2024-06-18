@@ -27,4 +27,8 @@
     <ProjectReference Include="..\..\src\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Personas\" />
+  </ItemGroup>
+
 </Project>

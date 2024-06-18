@@ -1,44 +1,31 @@
 ﻿namespace EnShop.Ordering.UnitTests.Domain;
 
-using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
-using EnShop.Ordering.UnitTests.Domain;
+using global::Ordering.UnitTests.Builders;
 
 public class OrderAggregateTest
 {
-    public OrderAggregateTest()
-    { }
-
     [Fact]
-    public void Add_new_Order_raises_new_event()
+    public void ChangeAggregate_raises_AggregateChangedDomainEvent()
     {
-        var expectedResult = 1;
+        var order = OrderBuilder
+            .For<SimpleOrder>()
+            .Build();
 
-        var fakeOrder = new Order("1");
+        order.ChangeAggregate();
 
-        Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
+        Assert.Single(order.DomainEvents);
+        Assert.Contains(new AggregateChangedDomainEvent(order), order.DomainEvents);
     }
 
     [Fact]
-    public void Add_event_Order_explicitly_raises_new_event()
+    public void ChangeAggregate_mutates_aggregate()
     {
-        var expectedResult = 2;
+        var order = OrderBuilder
+            .For<SimpleOrder>()
+            .Build();
 
-        var fakeOrder = new Order("1");
-        fakeOrder.AddDomainEvent(new AggregateCreatedDomainEvent(fakeOrder));
+        order.ChangeAggregate();
 
-        Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
-    }
-
-    [Fact]
-    public void Remove_event_Order_explicitly()
-    {
-        var fakeOrder = new Order("1");
-        var fakeEvent = new AggregateCreatedDomainEvent(fakeOrder);
-        var expectedResult = 1;
-
-        fakeOrder.AddDomainEvent(fakeEvent);
-        fakeOrder.RemoveDomainEvent(fakeEvent);
-
-        Assert.Equal(fakeOrder.DomainEvents.Count, expectedResult);
+        Assert.Fail();
     }
 }
