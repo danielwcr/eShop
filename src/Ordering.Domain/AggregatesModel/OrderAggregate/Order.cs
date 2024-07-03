@@ -22,8 +22,10 @@ public class Order : Entity, IAggregateRoot
         AddDomainEvent(new AggregateChangedDomainEvent(this));
     }
 
-    public void UpdateAggregate()
+    public void UpdateAggregate(string userId)
     {
+        UserId = userId;
+
         AddDomainEvent(new AggregateUpdatedDomainEvent(this));
     }
 }

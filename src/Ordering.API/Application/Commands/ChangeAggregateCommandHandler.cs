@@ -43,6 +43,6 @@ public class ChangeAggregateIdentifiedCommandHandler : IdentifiedCommandHandler<
 
     protected override bool CreateResultForDuplicateRequest()
     {
-        return true; // Ignore duplicate requests for processing order.
+        return true;
     }
 }

@@ -30,15 +30,15 @@ public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateComm
         {
             return false;
         }
-        orderToUpdate.ChangeAggregate();
+        orderToUpdate.UpdateAggregate(command.UserId);
 
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
 
-public class CreateCommandIdentifiedCommandHandler : IdentifiedCommandHandler<CreateAggregateCommand, bool>
+public class CreateAggregateIdentifiedCommandHandler : IdentifiedCommandHandler<CreateAggregateCommand, bool>
 {
-    public CreateCommandIdentifiedCommandHandler(
+    public CreateAggregateIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
         ILogger<IdentifiedCommandHandler<CreateAggregateCommand, bool>> logger)

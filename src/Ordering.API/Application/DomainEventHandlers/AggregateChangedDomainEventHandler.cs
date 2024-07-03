@@ -19,9 +19,7 @@ public class AggregateChangedDomainEventHandler
 
     public async Task Handle(AggregateChangedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
-
-        var integrationEvent = new AggregateChangedIntegrationEvent(order.Id, order.UserId);
+        var integrationEvent = new AggregateChangedIntegrationEvent(domainEvent.Order.Id);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

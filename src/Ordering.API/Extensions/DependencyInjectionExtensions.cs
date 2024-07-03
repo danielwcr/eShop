@@ -35,13 +35,12 @@
             cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
         });
 
-        // Register the command validators
-        services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, IdentifiedCommandValidator>();
-        services.AddSingleton<IValidator<CreateAggregateCommand>, CreateAggregateCommandValidator>();
-
         services.AddScoped<IOrderQueries, OrderQueries>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IRequestManager, RequestManager>();
+
+        services.AddSingleton<IValidator<IdentifiedCommand<CreateAggregateCommand, bool>>, CreateAggregateIdentifiedCommandValidator>();
+        services.AddSingleton<IValidator<CreateAggregateCommand>, CreateAggregateCommandValidator>();
     }
 
     private static void AddEventBusSubscriptions(this IEventBusBuilder eventBus)

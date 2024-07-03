@@ -12,3 +12,16 @@ public class CreateAggregateCommandValidator : AbstractValidator<CreateAggregate
         }
     }
 }
+
+public class CreateAggregateIdentifiedCommandValidator : AbstractValidator<IdentifiedCommand<CreateAggregateCommand, bool>>
+{
+    public CreateAggregateIdentifiedCommandValidator(ILogger<CreateAggregateIdentifiedCommandValidator> logger)
+    {
+        RuleFor(command => command.Id).NotEmpty();
+
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            logger.LogTrace("INSTANCE CREATED - {ClassName}", GetType().Name);
+        }
+    }
+}
