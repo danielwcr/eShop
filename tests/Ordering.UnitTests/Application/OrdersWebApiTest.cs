@@ -50,7 +50,7 @@ public class OrdersWebApiTest
     public async Task Get_orders_success()
     {
         // Arrange
-        var fakeDynamicResult = Enumerable.Empty<Details>();
+        var fakeDynamicResult = Enumerable.Empty<DetailsViewModel>();
 
         _orderQueriesMock.GetDetailsByFilterAsync(Guid.NewGuid().ToString())
             .Returns(Task.FromResult(fakeDynamicResult));
@@ -60,6 +60,6 @@ public class OrdersWebApiTest
         var result = await OrdersApi.GetDetailsByFilterAsync("1", orderServices);
 
         // Assert
-        Assert.IsType<Ok<IEnumerable<Details>>>(result);
+        Assert.IsType<Ok<IEnumerable<DetailsViewModel>>>(result);
     }
 }

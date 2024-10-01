@@ -2,17 +2,17 @@
 
 using EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
-public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateCommand, bool>
+public class UpdateAggregateCommandHandler : IRequestHandler<CreateAggregateCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
     private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
-    private readonly ILogger<CreateAggregateCommandHandler> _logger;
+    private readonly ILogger<UpdateAggregateCommandHandler> _logger;
 
-    public CreateAggregateCommandHandler(IMediator mediator,
+    public UpdateAggregateCommandHandler(IMediator mediator,
         IOrderingIntegrationEventService orderingIntegrationEventService,
         IOrderRepository orderRepository,
-        ILogger<CreateAggregateCommandHandler> logger)
+        ILogger<UpdateAggregateCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -22,16 +22,20 @@ public class CreateAggregateCommandHandler : IRequestHandler<CreateAggregateComm
 
     public async Task<bool> Handle(CreateAggregateCommand command, CancellationToken cancellationToken)
     {
-        var order = new Order(command.UserId);
-        _orderRepository.Add(order);
+        var orderToUpdate = await _orderRepository.GetAsync(command.OrderId);
+        if (orderToUpdate == null)
+        {
+            return false;
+        }
+        orderToUpdate.UpdateAggregate(command.UserId);
 
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
 
-public class CreateAggregateIdentifiedCommandHandler : IdentifiedCommandHandler<CreateAggregateCommand, bool>
+public class UpdateAggregateIdentifiedCommandHandler : IdentifiedCommandHandler<CreateAggregateCommand, bool>
 {
-    public CreateAggregateIdentifiedCommandHandler(
+    public UpdateAggregateIdentifiedCommandHandler(
         IMediator mediator,
         IRequestManager requestManager,
         ILogger<IdentifiedCommandHandler<CreateAggregateCommand, bool>> logger)

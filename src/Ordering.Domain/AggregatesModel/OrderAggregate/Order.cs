@@ -4,6 +4,7 @@ namespace EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class Order : Entity, IAggregateRoot
 {
+    public int AggregateProperty { get; private set; }
     public string UserId { get; private set; }
 
     protected Order()

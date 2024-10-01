@@ -1,6 +1,6 @@
 ﻿namespace EnShop.Ordering.API.Application.DomainEventHandlers;
 
-public partial class AggregateCreatedDomainEventHandler
+public class AggregateCreatedDomainEventHandler
                 : INotificationHandler<AggregateCreatedDomainEvent>
 {
     private readonly IOrderRepository _orderRepository;

@@ -6,6 +6,7 @@ public static class OrdersApi
     {
         app.MapPost("/create-aggregate", CreateAggregateAsync);
         app.MapGet("/get-details-by-filter", GetDetailsByFilterAsync);
+        app.MapGet("/get-aggregate", GetAggregateAsync);
 
         return app;
     }
@@ -42,11 +43,19 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<Details>>> GetDetailsByFilterAsync(
+    public static async Task<Ok<IEnumerable<DetailsViewModel>>> GetDetailsByFilterAsync(
         [FromQuery] string filter,
         [AsParameters] OrderServices services)
     {
         var result = await services.Queries.GetDetailsByFilterAsync(filter);
+        return TypedResults.Ok(result);
+    }
+
+    public static async Task<Ok<DetailsViewModel>> GetAggregateAsync(
+       [FromQuery] int id,
+       [AsParameters] OrderServices services)
+    {
+        var result = await services.Queries.GetAggregateAsync(id);
         return TypedResults.Ok(result);
     }
 }

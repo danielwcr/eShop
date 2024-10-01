@@ -2,5 +2,6 @@
 
 public interface IOrderQueries
 {
-    Task<IEnumerable<Details>> GetDetailsByFilterAsync(string filter);
+    Task<IEnumerable<DetailsViewModel>> GetDetailsByFilterAsync(string filter);
+    Task<DetailsViewModel> GetAggregateAsync(int id);
 }
