@@ -5,8 +5,8 @@ public static class OrdersApi
     public static RouteGroupBuilder MapOrdersApi(this RouteGroupBuilder app)
     {
         app.MapPost("/create-aggregate", CreateAggregateAsync);
-        app.MapGet("/get-details-by-filter", GetDetailsByFilterAsync);
-        app.MapGet("/get-aggregate", GetAggregateAsync);
+        app.MapGet("/get-collection-by-filter", GetCollectionByFilterAsync);
+        app.MapGet("/get-single-object-by-filter", GetSingleObjectByFilterAsync);
 
         return app;
     }
@@ -43,19 +43,19 @@ public static class OrdersApi
         }
     }
 
-    public static async Task<Ok<IEnumerable<DetailsViewModel>>> GetDetailsByFilterAsync(
+    public static async Task<Ok<IEnumerable<DetailsViewModel>>> GetCollectionByFilterAsync(
         [FromQuery] string filter,
         [AsParameters] OrderServices services)
     {
-        var result = await services.Queries.GetDetailsByFilterAsync(filter);
+        var result = await services.Queries.GetCollectionByFilterAsync(filter);
         return TypedResults.Ok(result);
     }
 
-    public static async Task<Ok<DetailsViewModel>> GetAggregateAsync(
-       [FromQuery] int id,
+    public static async Task<Ok<DetailsViewModel>> GetSingleObjectByFilterAsync(
+       [FromQuery] string filter,
        [AsParameters] OrderServices services)
     {
-        var result = await services.Queries.GetAggregateAsync(id);
+        var result = await services.Queries.GetSingleObjectByFilterAsync(filter);
         return TypedResults.Ok(result);
     }
 }

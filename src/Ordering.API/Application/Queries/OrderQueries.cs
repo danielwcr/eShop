@@ -2,7 +2,7 @@
 
 public class OrderQueries(OrderingContext context) : IOrderQueries
 {
-    public async Task<IEnumerable<DetailsViewModel>> GetDetailsByFilterAsync(string filter)
+    public async Task<IEnumerable<DetailsViewModel>> GetCollectionByFilterAsync(string filter)
     {
         return await context.Orders
             .Select(o => new DetailsViewModel
@@ -12,7 +12,7 @@ public class OrderQueries(OrderingContext context) : IOrderQueries
             .ToListAsync();
     }
 
-    public async Task<DetailsViewModel> GetAggregateAsync(int id)
+    public async Task<DetailsViewModel> GetSingleObjectByFilterAsync(string filter)
     {
         return await context.Orders
             .Select(o => new DetailsViewModel

@@ -52,12 +52,12 @@ public class OrdersWebApiTest
         // Arrange
         var fakeDynamicResult = Enumerable.Empty<DetailsViewModel>();
 
-        _orderQueriesMock.GetDetailsByFilterAsync(Guid.NewGuid().ToString())
+        _orderQueriesMock.GetCollectionByFilterAsync(Guid.NewGuid().ToString())
             .Returns(Task.FromResult(fakeDynamicResult));
 
         // Act
         var orderServices = new OrderServices(_mediatorMock, _orderQueriesMock, _loggerMock);
-        var result = await OrdersApi.GetDetailsByFilterAsync("1", orderServices);
+        var result = await OrdersApi.GetCollectionByFilterAsync("1", orderServices);
 
         // Assert
         Assert.IsType<Ok<IEnumerable<DetailsViewModel>>>(result);
