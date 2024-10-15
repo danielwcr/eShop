@@ -38,18 +38,6 @@ namespace Ordering.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "orders",
-                schema: "ordering",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "requests",
                 schema: "ordering",
                 columns: table => new
@@ -69,10 +57,6 @@ namespace Ordering.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "IntegrationEventLog",
-                schema: "ordering");
-
-            migrationBuilder.DropTable(
-                name: "orders",
                 schema: "ordering");
 
             migrationBuilder.DropTable(

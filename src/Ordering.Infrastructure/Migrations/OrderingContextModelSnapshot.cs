@@ -18,7 +18,7 @@ namespace Ordering.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("ordering")
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -55,19 +55,6 @@ namespace Ordering.Infrastructure.Migrations
                     b.HasKey("EventId");
 
                     b.ToTable("IntegrationEventLog", "ordering");
-                });
-
-            modelBuilder.Entity("EnShop.Ordering.Domain.AggregatesModel.OrderAggregate.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "EntityFrameworkHiLoSequence");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("orders", "ordering");
                 });
 
             modelBuilder.Entity("EnShop.Ordering.Infrastructure.Idempotency.ClientRequest", b =>
