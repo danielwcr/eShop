@@ -4,8 +4,7 @@ namespace EnShop.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class Order : Entity, IAggregateRoot
 {
-    public int AggregateProperty { get; private set; }
-    public string UserId { get; private set; }
+    public AggregateEntity AggregateProperty { get; private set; }
 
     protected Order()
     {
@@ -13,7 +12,6 @@ public class Order : Entity, IAggregateRoot
 
     public Order(string userId) : this()
     {
-        UserId = userId;
 
         AddDomainEvent(new AggregateCreatedDomainEvent(this));
     }
@@ -25,7 +23,6 @@ public class Order : Entity, IAggregateRoot
 
     public void UpdateAggregate(string userId)
     {
-        UserId = userId;
 
         AddDomainEvent(new AggregateUpdatedDomainEvent(this));
     }
