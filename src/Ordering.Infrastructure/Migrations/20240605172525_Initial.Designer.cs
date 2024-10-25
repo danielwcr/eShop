@@ -60,22 +60,6 @@ namespace Ordering.Infrastructure.Migrations
                     b.ToTable("IntegrationEventLog", "ordering");
                 });
 
-            modelBuilder.Entity("EnShop.Ordering.Domain.AggregatesModel.OrderAggregate.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "EntityFrameworkHiLoSequence");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("orders", "ordering");
-                });
-
             modelBuilder.Entity("EnShop.Ordering.Infrastructure.Idempotency.ClientRequest", b =>
                 {
                     b.Property<Guid>("Id")
